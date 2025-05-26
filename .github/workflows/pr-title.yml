@@ -1,0 +1,46 @@
+name: Auto PR Title Prefix
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  update-title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract issue key and update PR title
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const branchName = pr.head.ref;
+
+            const match = branchName.match(/(KW-\d+)/);
+            if (!match) {
+              console.log("No KW-XX issue key found in branch name.");
+              return;
+            }
+
+            const issueKey = match[1];
+
+            const cleanTitle = pr.title
+              .replace(/^\[KW-\d+\]\s*/, '') 
+              .replace(new RegExp(`^${issueKey}/`), '')
+
+            const newTitle = `[${issueKey}] ${cleanTitle}`;
+
+            if (newTitle !== pr.title) {
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                title: newTitle
+              });
+              console.log("PR title updated to:", newTitle);
+            } else {
+              console.log("PR title already formatted correctly.");
+            }
