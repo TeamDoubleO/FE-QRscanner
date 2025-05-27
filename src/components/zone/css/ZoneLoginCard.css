@@ -1,0 +1,106 @@
+.zone-login-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(0%, -50%);
+
+  width: 350px;
+  height: 500px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+
+  overflow-x: visible;
+  overflow-y: hidden;
+}
+
+.zone-login-card h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.zone-login-card p {
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.zone-login-card .description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.zone-login-card input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid #b0ccb0;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.zone-login-card button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #104b25;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.zone-login-card button:hover {
+  background-color: #0d3f1e;
+}
+
+.zone-login-card .error-message {
+  color: #e53935;
+  font-size: 0.85rem;
+  white-space: pre-line;
+  margin-top: 4px;
+}
+
+.zone-fade-in-down {
+  animation: zoneFadeInDown 0.8s ease forwards;
+}
+
+@keyframes zoneFadeInDown {
+  0% {
+    opacity: 1;
+    transform: translateY(500px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zone-fade-out-up {
+  animation: zoneFadeOutUp 0.8s ease forwards;
+}
+
+@keyframes zoneFadeOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(500px);
+  }
+}
+
+
