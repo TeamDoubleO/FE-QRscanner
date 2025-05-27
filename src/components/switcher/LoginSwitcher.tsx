@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import BuildingLoginPage from '../building/BuildingLoginPage';
-import ZoneLoginPage from '../zone/ZoneLoginPage';
+import BuildingLoginPage from '../../pages/BuildingLoginPage';
+import ZoneLoginPage from '../../pages/ZoneLoginPage';
 
 const LoginSwitcher = () => {
   const [isBuildingMode, setIsBuildingMode] = useState(true);

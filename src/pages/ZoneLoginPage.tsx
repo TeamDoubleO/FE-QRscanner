@@ -1,10 +1,10 @@
 import './css/ZoneLoginPage.css';
-import ZoneDescription from './ZoneDescription';
-import ZoneLoginCard from './ZoneLoginCard';
+import ZoneDescription from '../components/zone/ZoneDescription';
+import ZoneLoginCard from '../components/zone/ZoneLoginCard';
 import { useEffect, useState } from 'react';
 
-import zonewrapperBackground from '../../assets/images/zone-background.png';
-import buildingwrapperBackground from '../../assets/images/building-background.png';
+import zonewrapperBackground from '../assets/images/zone-background.png';
+import buildingwrapperBackground from '../assets/images/building-background.png';
 
 interface Props {
   onSwitch: () => void;

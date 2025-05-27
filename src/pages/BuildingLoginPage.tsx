@@ -1,10 +1,10 @@
 import './css/BuildingLoginPage.css';
-import BuildingDescription from './BuildingDescription';
-import BuildingLoginCard from './BuildingLoginCard';
+import BuildingDescription from '../components/building/BuildingDescription';
+import BuildingLoginCard from '../components/building/BuildingLoginCard';
 import { useEffect, useState } from 'react';
 
-import buildingwrapperBackground from '../../assets/images/building-background.png';
-import zonewrapperBackground from '../../assets/images/zone-background.png';
+import buildingwrapperBackground from '../assets/images/building-background.png';
+import zonewrapperBackground from '../assets/images/zone-background.png';
 
 interface Props {
   onSwitch: () => void;
