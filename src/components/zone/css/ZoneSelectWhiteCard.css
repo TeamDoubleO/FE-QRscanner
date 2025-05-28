@@ -1,5 +1,5 @@
 .zone-select-white-card {
-  width: 700px;
+  width: 350px;
   height: 500px;
   background-color: white;
   border-radius: 20px;
@@ -11,5 +11,18 @@
   align-items: center;
   text-align: center;
   gap: 20px;
-  transform: translateY(-40px);
+  position: relative;
+  transform: translateY(-24px) translateX(375px);
+  animation: expandFromRight 0.8s ease-out forwards;
+}
+
+@keyframes expandFromRight {
+  0% {
+    width: 350px;
+    transform: translateY(-24px) translateX(400px);
+  }
+  100% {
+    width: 700px;
+    transform: translateY(-24px) translateX(50px);
+  }
 }
