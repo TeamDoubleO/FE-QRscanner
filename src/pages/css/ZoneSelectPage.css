@@ -1,0 +1,28 @@
+.zone-select-page-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.zone-select-page-card-wrapper {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+}
+
+.zone-select-page-card-wrapper > :first-child {
+  position: relative;
+  z-index: 1;
+}
+
+.zone-select-page-card-wrapper > :last-child {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  transform: translate(50px, -30px);
+}
