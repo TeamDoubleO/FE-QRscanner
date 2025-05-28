@@ -1,0 +1,16 @@
+.reusable-button {
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    background: none;
+    transition: color 0.2s ease;
+  }
+  
+  .reusable-button:focus {
+    outline: none;
+  }
+  

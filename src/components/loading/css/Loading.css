@@ -1,0 +1,33 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background-color: #ffffff;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.loading-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+/* 무한 회전 애니메이션 */
+.spinning {
+  animation: spin 1.0s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
