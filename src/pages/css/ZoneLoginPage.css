@@ -1,0 +1,52 @@
+.zone-login-page-description-wrapper {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.zone-login-page-bg-base,
+.zone-login-page-bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 0.8s ease;
+}
+
+.zone-login-page-bg-base {
+  opacity: 1;
+}
+.zone-login-page-bg-overlay {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+}
+.fade-out {
+  opacity: 0;
+}
+
+.zone-login-page-card-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(0px, -50%);
+  transition: transform 0.8s ease;
+  display: inline-block;
+  z-index: 1;
+}
+
+.zone-slide-left {
+  transform: translate(-350px, -50%);
+}

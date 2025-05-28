@@ -1,0 +1,105 @@
+.building-login-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-100%, -50%);
+
+  width: 350px;
+  height: 500px;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  padding: 24px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+
+  overflow-x: visible;
+  overflow-y: hidden;
+
+}
+
+.building-login-card h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.building-login-card p {
+  color: #222;
+  margin-bottom: 20px;
+}
+
+.building-login-card .description {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.building-login-card input {
+  width:100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid #b0ccb0;
+  border-radius: 8px;
+  margin-bottom: 10px
+}
+
+.building-login-card button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #104b25;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.building-login-card button:hover {
+  background-color: #0d3f1e;
+}
+
+.building-login-card .error-message {
+  color: #e53935;
+  font-size: 0.85rem;
+  white-space: pre-line;
+  margin-top: 4px;
+}
+
+.building-fade-in-down {
+  animation: buildingFadeInDown 0.8s ease forwards;
+}
+
+@keyframes buildingFadeInDown {
+  0% {
+    opacity: 1;
+    transform: translateY(-500px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.building-fade-out-up {
+  animation: buildingFadeOutUp 0.8s ease forwards;
+}
+
+@keyframes buildingFadeOutUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-500px);
+  }
+}
