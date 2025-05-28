@@ -27,6 +27,10 @@ const ZoneLoginPage: React.FC<Props> = ({ onSwitch, isExiting, direction }) => {
     }
   }, [isExiting, onSwitch]);
 
+  const handleLogin = () => {
+    console.log('로그인 성공');
+  };
+
   return (
     <div className="zone-login-page-description-wrapper">
       <div
@@ -45,6 +49,7 @@ const ZoneLoginPage: React.FC<Props> = ({ onSwitch, isExiting, direction }) => {
           onSwitch={onSwitch}
           isExiting={isExiting}
           direction={direction}
+          onLogin={handleLogin}
         />
       </div>
     </div>

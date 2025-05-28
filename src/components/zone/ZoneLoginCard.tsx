@@ -1,27 +1,43 @@
 import './css/ZoneLoginCard.css';
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { adminLogin } from '../../apis/loginApi';
 
 interface Props {
   onSwitch: () => void;
   isExiting: boolean;
   direction: 'up' | 'down';
+  onLogin: () => void;
 }
 
-const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction }) => {
-  const [id, setId] = useState('');
+const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction, onLogin }) => {
+  const [adminId, setAdminId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const response = await adminLogin({
+        username: adminId,
+        password: password,
+      });
+    const token = response.accessToken;
+      if (token) {
+        localStorage.setItem("accessToken", token);
+        onLogin();
+        navigate("/zone/select");
+      } else {
+        setError("로그인 실패: 엑세스 토큰이 없음");
+      }
+    } catch (error: any) {
+      setError(error.message); 
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (id !== 'zone' || password !== '5678') {
-      setError('일치하는 정보가 존재하지 않습니다.\n입력 내용을 다시 확인해주세요.');
-    } else {
-      setError('');
-      console.log('구역 로그인 성공!');
-      //  api연결
-    }
+    handleLogin();
   };
 
   return (
@@ -41,8 +57,8 @@ const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction }) =
           <input
             type="text"
             placeholder="관리자 ID"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={adminId}
+            onChange={(e) => setAdminId(e.target.value)}
           />
           <input
             type="password"
