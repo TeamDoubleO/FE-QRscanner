@@ -28,19 +28,19 @@ const ZoneLoginPage: React.FC<Props> = ({ onSwitch, isExiting, direction }) => {
   }, [isExiting, onSwitch]);
 
   return (
-    <div className="zone-description-wrapper">
+    <div className="zone-login-page-description-wrapper">
       <div
-        className={`zone-bg-overlay ${step === 'slide' ? 'fade-in' : ''}`}
+        className={`zone-login-page-bg-overlay ${step === 'slide' ? 'fade-in' : ''}`}
         style={{ backgroundImage: `url(${buildingwrapperBackground})` }}
       />
 
       <div
-        className={`zone-bg-base ${step === 'slide' ? 'fade-out' : ''}`}
+        className={`zone-login-page-bg-base ${step === 'slide' ? 'fade-out' : ''}`}
         style={{ backgroundImage: `url(${zonewrapperBackground})` }}
       />
 
       <ZoneDescription onSwitch={onSwitch} />
-      <div className={`zone-login-card-wrapper ${step === 'slide' ? 'zone-slide-left' : ''}`}>
+      <div className={`zone-login-page-card-wrapper ${step === 'slide' ? 'zone-slide-left' : ''}`}>
         <ZoneLoginCard
           onSwitch={onSwitch}
           isExiting={isExiting}

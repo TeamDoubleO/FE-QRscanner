@@ -19,6 +19,9 @@
   background-position: left bottom;
   background-position-x: calc(0% - 15px);
   background-position-y: calc(100% + 10px); 
+
+  position: relative;
+  z-index: 1;
 }
 
 .zone-description h1 {

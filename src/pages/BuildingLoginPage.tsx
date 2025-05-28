@@ -28,19 +28,19 @@ const BuildingLoginPage: React.FC<Props> = ({ onSwitch, isExiting, direction }) 
   }, [isExiting, onSwitch]);
 
   return (
-    <div className="building-description-wrapper">
+    <div className="building-login-page-description-wrapper">
       <div
-        className={`building-bg-overlay ${step === 'slide' ? 'fade-in' : ''}`}
+        className={`building-login-page-bg-overlay ${step === 'slide' ? 'fade-in' : ''}`}
         style={{ backgroundImage: `url(${zonewrapperBackground})` }}
       />
 
       <div
-        className={`building-bg-base ${step === 'slide' ? 'fade-out' : ''}`}
+        className={`building-login-page-bg-base ${step === 'slide' ? 'fade-out' : ''}`}
         style={{ backgroundImage: `url(${buildingwrapperBackground})` }}
       />
 
       <BuildingDescription onSwitch={onSwitch} />
-      <div className={`building-login-card-wrapper ${step === 'slide' ? 'building-slide-right' : ''}`}>
+      <div className={`building-login-page-card-wrapper ${step === 'slide' ? 'building-slide-right' : ''}`}>
         <BuildingLoginCard
           onSwitch={onSwitch}
           isExiting={isExiting}

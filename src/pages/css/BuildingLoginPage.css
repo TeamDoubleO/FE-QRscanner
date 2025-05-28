@@ -1,4 +1,4 @@
-.building-description-wrapper {
+.building-login-page-description-wrapper {
   width: 100vw;
   height: 100vh;
   position: relative;
@@ -9,8 +9,8 @@
   align-items: center;
 }
 
-.building-bg-base,
-.building-bg-overlay {
+.building-login-page-bg-base,
+.building-login-page-bg-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -23,10 +23,10 @@
   transition: opacity 0.8s ease;
 }
 
-.building-bg-base {
+.building-login-page-bg-base {
   opacity: 1;
 }
-.building-bg-overlay {
+.building-login-page-bg-overlay {
   opacity: 0;
 }
 
@@ -37,7 +37,7 @@
   opacity: 0;
 }
 
-.building-login-card-wrapper {
+.building-login-page-card-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -49,9 +49,4 @@
 
 .building-slide-right {
   transform: translate(350px, -50%);
-}
-
-.building-description {
-  position: relative;
-  z-index: 1;
 }

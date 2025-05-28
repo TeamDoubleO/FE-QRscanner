@@ -19,6 +19,10 @@
   background-position: right bottom;
   background-position-x: calc(100% + 15px);
   background-position-y: calc(100% + 10px);
+
+  position: relative;
+  z-index: 1;
+
 }
 
 .building-description h1 {
