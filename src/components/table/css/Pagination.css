@@ -1,0 +1,38 @@
+  .pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  
+  .pagination-button {
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .pagination-button.active {
+    font-weight: bold;
+    color: #2e7d32;
+  }
+  
+  .pagination-arrow {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #2e7d32;
+  }
+
+  .pagination-button:focus,
+    .pagination-arrow:focus {
+    outline: none;
+    }
+  
+  .pagination-arrow:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }

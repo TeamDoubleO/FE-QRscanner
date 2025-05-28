@@ -15,8 +15,12 @@
   transform: translateY(-40px);
 }
 
-.building-select-main-card-logout-button-wrapper {
+.building-select-main-card-bottom-buttons {
   position: absolute;
   bottom: 20px;
-  left: 32px; /* padding과 일치 */
+  left: 32px;
+  right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
