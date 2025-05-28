@@ -1,4 +1,10 @@
-import axios, { AxiosError, type AxiosInstance, type AxiosRequestConfig, type AxiosResponse } from 'axios';
+import axios from 'axios';
+import {
+  type AxiosInstance,
+  type AxiosResponse,
+  type AxiosError,
+  type InternalAxiosRequestConfig, 
+} from 'axios';
 
 const getAccessToken = (): string | null => {
   return localStorage.getItem("accessToken");
@@ -15,10 +21,11 @@ const axiosWithoutAuth: AxiosInstance = axios.create({
 });
 
 // 요청 인터셉터
-axiosWithAuthorization.interceptors.request.use((config) => {
+axiosWithAuthorization.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   const token = getAccessToken();
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers = config.headers ?? {};
+    config.headers['Authorization'] = `Bearer ${token}`;
   }
   return config;
 });
@@ -27,7 +34,7 @@ axiosWithAuthorization.interceptors.request.use((config) => {
 axiosWithAuthorization.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
     console.log("401 발생한 요청 경로:", originalRequest.url);
 

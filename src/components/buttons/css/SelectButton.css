@@ -1,0 +1,25 @@
+  .select-button {
+    width: 200px;
+    height: 40px;
+    background-color: #f44336;
+    color: white;
+    font-size: 15px;
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    padding: 0;
+  }
+  
+  .select-button:hover {
+    background-color: #d71111;
+  }
+  
+  .select-button:active {
+    background-color: #b80606;
+  }
+  
+  
