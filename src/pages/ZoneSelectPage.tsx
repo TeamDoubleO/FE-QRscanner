@@ -1,6 +1,6 @@
 import './css/ZoneSelectPage.css';
 import ZoneSelectGreenCard from '../components/zone/ZoneSelectGreenCard';
-import ZoneSelectWhiteCard from '../components/zone/ZoneSelectWhiteCard';
+import ZoneSelectMainCard from '../components/zone/ZoneSelectMainCard';
 import zonewrapperBackground from '../assets/images/zone-background.png';
 
 const ZoneSelectPage: React.FC = () => {
@@ -11,7 +11,7 @@ const ZoneSelectPage: React.FC = () => {
     >
       <div className="zone-select-page-card-wrapper">
         <ZoneSelectGreenCard />
-        <ZoneSelectWhiteCard />
+        <ZoneSelectMainCard />
       </div>
     </div>
   );

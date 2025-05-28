@@ -1,6 +1,6 @@
 import './css/BuildingSelectPage.css';
 import BuildingSelectGreenCard from '../components/building/BuildingSelectGreenCard';
-import BuildingSelectWhiteCard from '../components/building/BuildingSelectWhiteCard';
+import BuildingSelectMainCard from '../components/building/BuildingSelectMainCard';
 import buildingWrapperBackground from '../assets/images/building-background.png';
 
 const BuildingSelectPage: React.FC = () => {
@@ -11,7 +11,7 @@ const BuildingSelectPage: React.FC = () => {
     >
       <div className="building-select-page-card-wrapper">
         <BuildingSelectGreenCard />
-        <BuildingSelectWhiteCard />
+        <BuildingSelectMainCard />
       </div>
     </div>
   );

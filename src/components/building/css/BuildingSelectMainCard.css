@@ -1,6 +1,5 @@
-.building-select-white-card {
-  margin-top: 5px;
-  width: 350px;
+.building-select-main-card {
+  width: 700px;
   height: 500px;
   background-color: white;
   border-radius: 20px;
@@ -13,15 +12,4 @@
   text-align: center;
   gap: 20px;
   transform: translateY(-40px);
-
-  animation: expandRight 0.8s ease-out forwards;
-}
-
-@keyframes expandRight {
-  0% {
-    width: 350px;
-  }
-  100% {
-    width: 700px;
-  }
 }
