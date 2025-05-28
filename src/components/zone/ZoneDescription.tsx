@@ -11,7 +11,7 @@ const ZoneDescription: React.FC<Props> = ({ onSwitch }) => {
       className="zone-description"
       style={{ backgroundImage: `url(${zoneboxBackground})` }}
     >
-      <div className="zone-text-group">
+      <div className="zone-description-text-group">
         <h1>구역용</h1>
         <p>
           건물 내 개별 구역의 출입문을 스캔하여 <br />

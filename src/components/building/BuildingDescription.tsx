@@ -8,7 +8,7 @@ interface Props {
 const BuildingDescription: React.FC<Props> = ({ onSwitch }) => {
   return (
     <div className="building-description" style={{ backgroundImage: `url(${buildingboxBackground})` }}>
-      <div className="building-text-group">
+      <div className="building-description-text-group">
         <h1>건물용</h1>
         <p>
           건물 출입구를 스캔하여 <br />
