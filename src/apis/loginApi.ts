@@ -1,10 +1,15 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import axiosWithAuthorization from "../contexts/axiosWithAuthorization";
 
 // 관리자 로그인
 interface LoginRequest {
     username: string;
     password: string;
+}
+
+interface LoginResponse {
+
+  accessToken: string;
 }
 
 const axiosWithoutAuth = axios.create({
@@ -14,7 +19,7 @@ const axiosWithoutAuth = axios.create({
 
 export const adminLogin = async (payload: LoginRequest) => {
     try {
-        const res = await axiosWithoutAuth.post('/auth/login', payload);
+        const res = await axiosWithoutAuth.post<{ data: LoginResponse }>('/auth/login', payload);
 
         const token = res.data.data?.accessToken;
     if (!token) {
@@ -23,11 +28,10 @@ export const adminLogin = async (payload: LoginRequest) => {
 
     localStorage.setItem('accessToken', token);
 
-      return res.data.data;
-  } catch (error) {
-      const err = error as AxiosError<{ data?: { message?: string } }>;
-      const message = err.response?.data?.data?.message ?? "관리자 로그인에 실패했습니다.";
-      throw new Error(message);
+    return res.data.data;
+  } catch (error: any) {
+    const message = error?.response?.data?.data?.message ?? "관리자 로그인에 실패했습니다.";
+    throw new Error(message);
   }
 };
 
@@ -37,9 +41,8 @@ export const adminLogout = async () => {
       const res = await axiosWithAuthorization.post(`/auth/logout`);
       localStorage.removeItem('accessToken');
       return res.data.data;
-    } catch (error) {
-      const err = error as AxiosError<{ data?: { message?: string } }>;
-      const message = err.response?.data?.data?.message ?? "관리자 로그아웃에 실패했습니다.";
+    } catch (error: any) {
+      const message = error?.response?.data?.data?.message ?? "관리자 로그아웃에 실패했습니다.";
       throw new Error(message);
     }
 }
