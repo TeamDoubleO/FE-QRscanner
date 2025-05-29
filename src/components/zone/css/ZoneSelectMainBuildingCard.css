@@ -1,0 +1,29 @@
+.zone-select-main-building-card {
+  margin-top: 6px;
+  width: 700px;
+  height: 500px;
+  background-color: #E8E8E8;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+  padding: 40px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  transform: translateY(-40px);
+  position: relative;
+}
+
+.zone-select-main-building-card-logout-button-wrapper {
+  position: absolute;
+  bottom: 20px;
+  left: 32px;
+}
+
+.zone-select-main-building-card-next-button-wrapper {
+  position: absolute;
+  bottom: 20px;
+  right: 32px;
+}
