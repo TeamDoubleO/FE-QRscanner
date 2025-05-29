@@ -1,20 +1,29 @@
 import './css/ZoneSelectPage.css';
 import { useEffect, useState } from 'react';
+
 import ZoneSelectGreenCard from '../components/zone/ZoneSelectGreenCard';
 import ZoneSelectWhiteCard from '../components/zone/ZoneSelectWhiteCard';
-import ZoneSelectMainCard from '../components/zone/ZoneSelectMainCard';
+import ZoneSelectMainBuildingCard from '../components/zone/ZoneSelectMainBuildingCard';
+import ZoneSelectMainZoneCard from '../components/zone/ZoneSelectMainZoneCard';
+
 import zonewrapperBackground from '../assets/images/zone-background.png';
 
 const ZoneSelectPage: React.FC = () => {
-  const [showMainCard, setShowMainCard] = useState(false);
+  const [currentStep, setCurrentStep] = useState<'white' | 'building' | 'zone'>('white');
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowMainCard(true);
+      setCurrentStep('building');
     }, 800);
 
     return () => clearTimeout(timer);
   }, []);
+
+  const handleNext = () => {
+    if (currentStep === 'building') {
+      setCurrentStep('zone');
+    }
+  };
 
   return (
     <div
@@ -23,7 +32,9 @@ const ZoneSelectPage: React.FC = () => {
     >
       <div className="zone-select-page-card-wrapper">
         <ZoneSelectGreenCard />
-        {showMainCard ? <ZoneSelectMainCard /> : <ZoneSelectWhiteCard />}
+        {currentStep === 'white' && <ZoneSelectWhiteCard />}
+        {currentStep === 'building' && <ZoneSelectMainBuildingCard onNext={handleNext} />}
+        {currentStep === 'zone' && <ZoneSelectMainZoneCard />}
       </div>
     </div>
   );
