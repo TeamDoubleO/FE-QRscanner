@@ -41,30 +41,38 @@ const CheckTable: React.FC<CheckEditTableProps> = ({ tableTitles, data, onRowSel
           </tr>
         </thead>
         <tbody>
-          {data.map((row, idx) => (
-            <tr
-              key={idx}
-              className={selectedRow === idx ? "check-table-selected-row" : ""}
-            >
-              <td>
-                <input
+          {data.length === 0 ? (
+            <tr>
+              <td colSpan={tableTitles.length + 2} style={{ textAlign: 'center', padding: '12px', color: '#888' }}>
+                검색하신 건물이 존재하지 않습니다
+              </td>
+            </tr>
+          ) : (
+            data.map((row, idx) => (
+              <tr
+                key={idx}
+                className={selectedRow === idx ? "check-table-selected-row" : ""}
+              >
+                <td>
+                  <input
                     type="radio"
                     name="row-selection" 
                     checked={selectedRow === idx}
                     onChange={() => handleRowSelect(idx)}
-                />
-              </td>
+                  />
+                </td>
                 {tableTitles.map((col) => (
-              <td
-                key={col.key}
-                className={col.key === "name" ? "check-table-name" : ""}
-              >
-              {row[col.key]}
-            </td>
-          ))}
-          <td></td>
-          </tr>
-          ))}
+                  <td
+                    key={col.key}
+                    className={col.key === "name" ? "check-table-name" : ""}
+                  >
+                    {row[col.key]}
+                  </td>
+                ))}
+                <td></td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
