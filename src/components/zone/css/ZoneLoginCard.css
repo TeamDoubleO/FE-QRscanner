@@ -41,7 +41,7 @@
 }
 
 .zone-login-card input {
-  width:  300px;
+  width: 300px;
   padding: 10px 14px;
   font-size: 1rem;
   border: 1px solid #b0ccb0;
@@ -72,11 +72,11 @@
   margin-top: 4px;
 }
 
-.zone-fade-in-down {
-  animation: zoneFadeInDown 0.8s ease forwards;
+.zone-login-card-fade-in-down {
+  animation: zone-login-card-fade-in-down 0.8s ease forwards;
 }
 
-@keyframes zoneFadeInDown {
+@keyframes zone-login-card-fade-in-down {
   0% {
     opacity: 1;
     transform: translateY(500px);
@@ -87,11 +87,11 @@
   }
 }
 
-.zone-fade-out-up {
-  animation: zoneFadeOutUp 0.8s ease forwards;
+.zone-login-card-fade-out-up {
+  animation: zone-login-card-fade-out-up 0.8s ease forwards;
 }
 
-@keyframes zoneFadeOutUp {
+@keyframes zone-login-card-fade-out-up {
   0% {
     opacity: 1;
     transform: translateY(0);
@@ -101,5 +101,3 @@
     transform: translateY(500px);
   }
 }
-
-

@@ -26,14 +26,16 @@
 .zone-login-page-bg-base {
   opacity: 1;
 }
+
 .zone-login-page-bg-overlay {
   opacity: 0;
 }
 
-.fade-in {
+.zone-login-page-fade-in {
   opacity: 1;
 }
-.fade-out {
+
+.zone-login-page-fade-out {
   opacity: 0;
 }
 
@@ -47,6 +49,6 @@
   z-index: 1;
 }
 
-.zone-slide-left {
+.zone-login-page-slide-left {
   transform: translate(-350px, -50%);
 }

@@ -13,10 +13,10 @@
   gap: 20px;
   position: relative;
   transform: translateY(-24px) translateX(375px);
-  animation: expandFromRight 0.8s ease-out forwards;
+  animation: zone-select-white-card-expand-left 0.8s ease-out forwards;
 }
 
-@keyframes expandFromRight {
+@keyframes zone-select-white-card-expand-left {
   0% {
     width: 350px;
     transform: translateY(-24px) translateX(400px);

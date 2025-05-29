@@ -50,7 +50,9 @@ const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction, onL
     >
       <div
         className={`zone-card-content ${
-          isExiting ? 'zone-fade-out-up' : 'zone-fade-in-down'
+          isExiting 
+          ? 'zone-login-card-fade-out-up' 
+          : 'zone-login-card-fade-in-down'
         }`}
       >
         <h2>구역용 로그인</h2>

@@ -20,7 +20,6 @@
 
   overflow-x: visible;
   overflow-y: hidden;
-
 }
 
 .building-login-card h2 {
@@ -42,7 +41,7 @@
 }
 
 .building-login-card input {
-  width:  300px;
+  width: 300px;
   padding: 10px 14px;
   font-size: 1rem;
   border: 1px solid #b0ccb0;
@@ -73,11 +72,11 @@
   margin-top: 4px;
 }
 
-.building-fade-in-down {
-  animation: buildingFadeInDown 0.8s ease forwards;
+.building-login-card-fade-in-down {
+  animation: building-login-card-fade-in-down 0.8s ease forwards;
 }
 
-@keyframes buildingFadeInDown {
+@keyframes building-login-card-fade-in-down {
   0% {
     opacity: 1;
     transform: translateY(-500px);
@@ -88,11 +87,11 @@
   }
 }
 
-.building-fade-out-up {
-  animation: buildingFadeOutUp 0.8s ease forwards;
+.building-login-card-fade-out-up {
+  animation: building-login-card-fade-out-up 0.8s ease forwards;
 }
 
-@keyframes buildingFadeOutUp {
+@keyframes building-login-card-fade-out-up {
   0% {
     opacity: 1;
     transform: translateY(0);
