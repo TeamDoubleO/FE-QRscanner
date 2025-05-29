@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom'; 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import './css/BuildingSelectMainCard.css';
+import SearchBar from '../searchbar/SearchBar';
 import CheckTable from '../table/CheckTable';
 import Pagination from '../table/Pagination';
 import LogoutButton from '../buttons/LogoutButton';
@@ -20,33 +21,42 @@ const BuildingSelectMainCard: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBuilding, setSelectedBuilding] = useState<Record<string, any> | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  const prevSearchKeywordRef = useRef('');
 
   // const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const loadData = async () => {
-    // setIsLoading(true);
-      try {
-        const data = await fetchBuildingList(currentPage - 1); 
-        const transformed = data.content.map((item: any) => ({
-          ...item,
-          createdDt: item.createdDt
-            ? item.createdDt.slice(0, 19).replace("T", " ")
-            : "-"
-        }));
-        setBuildingList(transformed);
-        setTotalPages(data.totalPages);
-      } catch (err) {
-        console.error("건물 목록 불러오기 실패:", err);
-      } finally {
-        // setIsLoading(false);
-      }
-    };
+  const loadPage = async (page: number, keyword: string) => {
+    try {
+      const data = await fetchBuildingList(page - 1, keyword);
+      setBuildingList(data.content);
+      setTotalPages(data.totalPages);
+    } catch (err) {
+      console.error("건물 목록 불러오기 실패:", err);
+    }
+  };
 
-    loadData();
-  }, [currentPage]);
+  const handleSearch = async (input: string) => {
+    const trimmed = input.trim();
+
+    if (trimmed !== prevSearchKeywordRef.current || currentPage !== 1) {
+      prevSearchKeywordRef.current = trimmed;
+      setSearchKeyword(trimmed);
+
+      if (currentPage === 1) {
+        await loadPage(1, trimmed); 
+      } else {
+        setCurrentPage(1);
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadPage(currentPage, searchKeyword);
+  }, [currentPage, searchKeyword ?? '']);
 
   const handleSelectBuilding = () => {
     localStorage.setItem("deviceAreaCode", selectedBuilding?.buildingCode);
@@ -73,6 +83,13 @@ const BuildingSelectMainCard: React.FC = () => {
   return (
     <div className="building-select-main-card">
       <div className="building-select-main-card-table-wrapper">
+      <h2>건물 출입구 선택</h2>
+      <br />
+      <SearchBar
+        placeholder="건물명을 입력하세요"
+        onSearch={handleSearch}
+      />
+      <br />
       <CheckTable 
         tableTitles={tableTitles} 
         data={buildingList}

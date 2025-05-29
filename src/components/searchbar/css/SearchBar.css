@@ -4,7 +4,7 @@
     gap: 8px;
     width: 600px;
     background-color: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     padding: 0px;
     border-radius: 4px;
 
@@ -71,10 +71,14 @@
     padding: 8px;
     font-size: 14px;
     background-color: white;
+
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
   
   .search-bar-button {
     background-color: #1f441f;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     color: white;
     padding: 8px 16px;
     border: none;
