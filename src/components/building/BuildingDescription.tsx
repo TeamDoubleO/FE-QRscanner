@@ -1,5 +1,6 @@
 import './css/BuildingDescription.css';
 import buildingboxBackground from '../../assets/images/building-description-background.png';
+import ReusableButton from '../buttons/ReusableButton';
 
 interface Props {
   onSwitch: () => void;
@@ -7,7 +8,10 @@ interface Props {
 
 const BuildingDescription: React.FC<Props> = ({ onSwitch }) => {
   return (
-    <div className="building-description" style={{ backgroundImage: `url(${buildingboxBackground})` }}>
+    <div
+      className="building-description"
+      style={{ backgroundImage: `url(${buildingboxBackground})` }}
+    >
       <div className="building-description-text-group">
         <h1>건물용</h1>
         <p>
@@ -17,7 +21,9 @@ const BuildingDescription: React.FC<Props> = ({ onSwitch }) => {
         <p className="warning">※ 서비스를 이용하려면 로그인 후 시작해 주세요.</p>
       </div>
 
-      <button onClick={onSwitch}>구역 모드로 이동</button>
+      <ReusableButton onClick={onSwitch} className="building-description-button">
+        구역 모드로 이동
+      </ReusableButton>
     </div>
   );
 };

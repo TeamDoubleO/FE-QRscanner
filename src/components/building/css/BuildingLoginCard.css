@@ -42,12 +42,11 @@
 }
 
 .building-login-card input {
-  width:100%;
+  width:  300px;
   padding: 10px 14px;
   font-size: 1rem;
   border: 1px solid #b0ccb0;
   border-radius: 8px;
-  margin-bottom: 10px
 }
 
 .building-login-card button {

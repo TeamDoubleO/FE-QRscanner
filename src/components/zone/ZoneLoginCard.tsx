@@ -2,6 +2,8 @@ import './css/ZoneLoginCard.css';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { adminLogin } from '../../apis/loginApi';
+import ReusableInput from '../input/ReusableInput';
+import ReusableButton from '../buttons/ReusableButton';
 
 interface Props {
   onSwitch: () => void;
@@ -22,7 +24,7 @@ const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction, onL
         username: adminId,
         password: password,
       });
-    const token = response.accessToken;
+      const token = response.accessToken;
       if (token) {
         localStorage.setItem("accessToken", token);
         onLogin();
@@ -31,7 +33,7 @@ const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction, onL
         setError("로그인 실패: 엑세스 토큰이 없음");
       }
     } catch (error: any) {
-      setError(error.message); 
+      setError(error.message);
     }
   };
 
@@ -54,20 +56,25 @@ const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction, onL
         <h2>구역용 로그인</h2>
         <p className="description">구역 관리자 계정으로 로그인하세요.</p>
         <form onSubmit={handleSubmit}>
-          <input
+          <ReusableInput
             type="text"
             placeholder="관리자 ID"
             value={adminId}
             onChange={(e) => setAdminId(e.target.value)}
+            className="zone-login-input"
           />
-          <input
+          <ReusableInput
             type="password"
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            showToggle
+            className="zone-login-input"
           />
           {error && <p className="error-message">{error}</p>}
-          <button type="submit">로그인</button>
+          <ReusableButton type="submit" className="zone-login-button">
+            로그인
+          </ReusableButton>
         </form>
       </div>
     </div>
