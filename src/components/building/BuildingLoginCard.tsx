@@ -50,7 +50,9 @@ const BuildingLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction,
     >
       <div
         className={`building-card-content ${
-          isExiting ? 'building-fade-out-up' : 'building-fade-in-down'
+          isExiting 
+          ? 'building-login-card-fade-out-up'
+          : 'building-login-card-fade-in-down'
         }`}
       >
         <h2>건물용 로그인</h2>

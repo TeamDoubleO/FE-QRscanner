@@ -14,19 +14,10 @@
   gap: 20px;
   transform: translateY(-40px);
 
-  animation: expandRight 0.8s ease-out forwards;
+  animation: building-select-white-card-expand-right 0.8s ease-out forwards;
 }
 
-@keyframes expandRight {
-  0% {
-    width: 350px;
-  }
-  100% {
-    width: 700px;
-  }
-}
-
-@keyframes expandRight {
+@keyframes building-select-white-card-expand-right {
   0% {
     width: 350px;
     background-color: white;
