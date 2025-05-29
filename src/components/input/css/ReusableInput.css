@@ -41,3 +41,11 @@
 .reusable-input-field::placeholder {
   color: #aaa;
 }
+
+.reusable-input-icon {
+  position: absolute;
+  right: 12px;
+  top: 30%;
+  cursor: pointer;
+  color: #888;
+}
