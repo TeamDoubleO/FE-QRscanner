@@ -2,7 +2,7 @@
   margin-top: 6px;
   width: 700px;
   height: 500px;
-  background-color: white;
+  background-color: #E8E8E8;
   border-radius: 20px;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
   padding: 40px 32px;
@@ -18,5 +18,5 @@
 .zone-select-main-card-logout-button-wrapper {
   position: absolute;
   bottom: 20px;
-  left: 32px; /* padding과 일치 */
+  left: 32px;
 }

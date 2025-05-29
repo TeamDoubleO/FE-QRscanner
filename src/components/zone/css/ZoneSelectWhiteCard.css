@@ -20,9 +20,14 @@
   0% {
     width: 350px;
     transform: translateY(-24px) translateX(400px);
+    background-color: white;
+  }
+  50% {
+    background-color: white;
   }
   100% {
     width: 700px;
     transform: translateY(-24px) translateX(50px);
+    background-color: #E8E8E8;
   }
 }

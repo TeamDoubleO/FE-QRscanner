@@ -25,3 +25,17 @@
     width: 700px;
   }
 }
+
+@keyframes expandRight {
+  0% {
+    width: 350px;
+    background-color: white;
+  }
+  50% {
+    background-color: white;
+  }
+  100% {
+    width: 700px;
+    background-color: #E8E8E8;
+  }
+}
