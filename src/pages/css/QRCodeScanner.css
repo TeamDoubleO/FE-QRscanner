@@ -1,0 +1,32 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#qr-reader__dashboard_section video {
+  object-fit: cover !important;
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#qr-reader {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+#qr-reader__dashboard {
+  position: relative;
+  z-index: 2;
+}
+
+#qr-reader__dashboard_section {
+  flex: 1;
+  position: relative;
+}
