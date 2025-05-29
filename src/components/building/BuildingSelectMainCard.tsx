@@ -8,7 +8,6 @@ import Pagination from '../table/Pagination';
 import LogoutButton from '../buttons/LogoutButton';
 import SelectButton from '../buttons/SelectButton';
 
-import { adminLogout } from '../../apis/loginApi';
 import { fetchBuildingList } from '../../apis/areaApi';
 
 const tableTitles = [
@@ -63,23 +62,6 @@ const BuildingSelectMainCard: React.FC = () => {
     navigate("/qr"); 
   };
 
-  const handleLogout = async () => {
-    const confirmed = window.confirm("로그아웃 하시겠습니까?");
-    if (!confirmed) return;
-
-    try {
-      await adminLogout();
-      localStorage.clear();
-      navigate("/login");
-    } catch (err: any) {
-      localStorage.clear();
-      const message = err?.message ?? "로그아웃 실패";
-      alert(message); 
-      console.warn("관리자 로그아웃 실패:", err);
-      navigate("/login");
-    }
-  };
-
   return (
     <div className="building-select-main-card">
       <div className="building-select-main-card-table-wrapper">
@@ -102,7 +84,7 @@ const BuildingSelectMainCard: React.FC = () => {
       />
       </div>
       <div className="building-select-main-card-bottom-buttons">
-        <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
+        <LogoutButton />
         <SelectButton onClick={handleSelectBuilding}>해당 건물 QR스캔 시작</SelectButton>
       </div>
     </div>
