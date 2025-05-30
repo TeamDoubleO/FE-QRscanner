@@ -16,6 +16,12 @@ const STATUS_MESSAGES: Record<string, string> = {
   INVALID_QR: "⚠️ 올바르지 않은 QR 코드입니다",
 };
 
+const CENTER_MESSAGES = [
+  STATUS_MESSAGES.ACCESS_GRANTED,
+  STATUS_MESSAGES.ACCESS_DENIED,
+  STATUS_MESSAGES.INVALID_QR
+];
+
 const parseResult = (raw: string) => {
   return raw.split(",").reduce((acc: Record<string, string>, pair) => {
     const [key, value] = pair.split("=");
@@ -31,6 +37,10 @@ const QRCodeScanner = () => {
   const [popupMessage, setPopupMessage] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const scannerRef = useRef<any>(null);
+
+  const buildingName = localStorage.getItem("buildingName") || "";
+  const zoneName = localStorage.getItem("zoneName") || "";
+  const isZoneMode = !!zoneName;
 
   const showMessage = (message: string) => {
     setPopupMessage(message);
@@ -129,10 +139,17 @@ const QRCodeScanner = () => {
       <div className="qr-header">
         <img src={logo} alt="KEYWE Logo" className="qr-logo" />
         <h2 className="qr-header-text">QR 스캔 후 출입이 가능합니다!</h2>
+        <div className="qr-header-location">
+          {isZoneMode ? `${buildingName} / ${zoneName}` : buildingName}
+        </div>
       </div>
 
       {showPopup && (
-        <div className="qr-popup-message">
+        <div
+          className={`qr-popup-message ${
+            CENTER_MESSAGES.includes(popupMessage) ? 'qr-popup-message-center' : ''
+          }`}
+        >
           {popupMessage}
         </div>
       )}

@@ -15,7 +15,7 @@ const tableTitles = [
 ];
 
 interface Props {
-  onNext: (buildingId: string) => void;
+  onNext: (buildingId: string, buildingName: string) => void;
 }
 
 const ZoneSelectMainBuildingCard: React.FC<Props> = ({ onNext }) => {
@@ -54,33 +54,37 @@ const ZoneSelectMainBuildingCard: React.FC<Props> = ({ onNext }) => {
 
   useEffect(() => {
     loadPage(currentPage, searchKeyword);
-  }, [currentPage, searchKeyword ?? '']);
+  }, [currentPage, searchKeyword]);
 
   const handleSelectBuilding = () => {
-    console.log("선택된 buildingId:", selectedBuilding?.buildingId);
-    onNext(selectedBuilding?.buildingId);
+    if (!selectedBuilding) return;
+
+    const { buildingId, buildingName } = selectedBuilding;
+
+    localStorage.setItem("buildingName", buildingName);
+    onNext(buildingId, buildingName);
   };
 
   return (
     <div className="zone-select-main-building-card">
       <div className="zone-select-main-building-card-table-wrapper">
-      <h2>건물 선택</h2>
-      <br />
-      <SearchBar
-        placeholder="건물명을 입력하세요"
-        onSearch={handleSearch}
-      />
-      <br />
-      <CheckTable 
-        tableTitles={tableTitles} 
-        data={buildingList}
-        onRowSelect={(row) => setSelectedBuilding(row)} 
-      />
-      <Pagination 
-        currentPage={currentPage}
-        totalPages={totalPages} 
-        onPageChange={setCurrentPage}
-      />
+        <h2>건물 선택</h2>
+        <br />
+        <SearchBar
+          placeholder="건물명을 입력하세요"
+          onSearch={handleSearch}
+        />
+        <br />
+        <CheckTable 
+          tableTitles={tableTitles} 
+          data={buildingList}
+          onRowSelect={(row) => setSelectedBuilding(row)} 
+        />
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages} 
+          onPageChange={setCurrentPage}
+        />
       </div>
       <div className="zone-select-main-zone-card-bottom-buttons">
         <LogoutButton />

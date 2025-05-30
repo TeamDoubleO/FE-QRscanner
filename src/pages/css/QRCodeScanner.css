@@ -20,9 +20,10 @@
 }
 
 .qr-logo {
+  top: 11px;
   position: absolute;
   left: 20px;
-  height: 36px;
+  height: 40px;
 }
 
 .qr-header-text {
@@ -47,6 +48,12 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
+.qr-popup-message-center {
+  font-size: 3rem;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
 .qr-reader {
   position: absolute;
   top: 0;
@@ -64,6 +71,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 5;
   pointer-events: none;
@@ -98,5 +106,17 @@
   background-color: #545454;
   color: white;
   cursor: pointer;
+  z-index: 9999;
+}
+
+
+.qr-header-location {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 18px;
+  white-space: nowrap;
   z-index: 9999;
 }
