@@ -1,10 +1,20 @@
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 
 import { verifyQR } from '../apis/qrApi';
 
-import './css/QRCodeScanner.css'
+import './css/QRCodeScanner.css';
+import logo from '../assets/images/KEYWE_logo.png';
+
+const STATUS_MESSAGES: Record<string, string> = {
+  NO_CAMERA: "📵 카메라 장치를 찾을 수 없습니다",
+  SCANNING: "📷 인식 중... QR 코드를 화면에 맞춰주세요",
+  ACCESS_GRANTED: "✅ 출입 인증 성공",
+  ACCESS_DENIED: "❌ 출입 권한 없음",
+  VERIFY_FAILED: "🛠️ 출입 인증 실패",
+  INVALID_QR: "⚠️ 올바르지 않은 QR 코드입니다",
+};
 
 const parseResult = (raw: string) => {
   return raw.split(",").reduce((acc: Record<string, string>, pair) => {
@@ -16,164 +26,123 @@ const parseResult = (raw: string) => {
 
 const QRCodeScanner = () => {
   const navigate = useNavigate();
-
-  // const [scanResult, setScanResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [isScanning, setIsScanning] = useState(false);
-  const scannerRef = useRef<Html5QrcodeScanner | null>(null);
+  const scannerRef = useRef<any>(null);
+
+  const showMessage = (message: string) => {
+    setPopupMessage(message);
+    setShowPopup(true);
+    setTimeout(() => {
+      setShowPopup(false);
+      setIsScanning(false);
+    }, 5000);
+  };
 
   useEffect(() => {
-    if (scannerRef.current) return; // 이미 렌더링된 경우 무시
+    if (scannerRef.current) return;
 
-    const scanner = new Html5QrcodeScanner(
+    const scanner = new (Html5QrcodeScanner as any)(
       "qr-reader",
       {
-          fps: 10,
-          qrbox: Math.floor(Math.min(window.innerWidth, window.innerHeight) * 0.8),
+        fps: 10
       },
       false
-  );
+    );
 
-  const handleScan = async (parsed: any) => {
-  const allowedAreas = parsed?.vp?.verifiableCredential?.credentialSubject?.allowedAreas;
-  const deviceAreaCode = localStorage.getItem("deviceAreaCode") || "";
+    const handleScan = async (parsed: any) => {
+      const allowedAreas = parsed?.vp?.verifiableCredential?.credentialSubject?.allowedAreas;
+      const deviceAreaCode = localStorage.getItem("deviceAreaCode") || "";
 
-  if (Array.isArray(allowedAreas) && deviceAreaCode) {
-    try {
-      console.log("allowedAreas:", allowedAreas);
-      console.log("deviceAreaCode:", deviceAreaCode);
-
-      const result = await verifyQR(allowedAreas, deviceAreaCode);
-      console.log("출입 서버 응답:", result);
-
-      if (result === true) {
-        setPopupMessage("✅ 출입 인증 성공");
+      if (Array.isArray(allowedAreas) && deviceAreaCode) {
+        try {
+          const result = await verifyQR(allowedAreas, deviceAreaCode);
+          showMessage(result ? STATUS_MESSAGES.ACCESS_GRANTED : STATUS_MESSAGES.ACCESS_DENIED);
+        } catch (err: unknown) {
+          console.error("출입 데이터 전송 실패", err);
+          showMessage(STATUS_MESSAGES.VERIFY_FAILED);
+        }
       } else {
-        setPopupMessage("❌ 출입 인증 거부");
+        showMessage(STATUS_MESSAGES.INVALID_QR);
       }
-    } catch (err) {
-      console.error("출입 데이터 전송 실패", err);
-      setPopupMessage("출입 인증 실패");
-    }
-  } else {
-    console.warn("allowedAreas 또는 deviceAreaCode가 없습니다.");
-    setPopupMessage("QR 검증 데이터 부족");
-  }
-  setShowPopup(true);
-  setIsScanning(true);
-  setTimeout(() => {
-    setShowPopup(false);
-    setIsScanning(false);
-  }, 5000);
-};
+    };
 
-  scanner.render(
-    (decodedText: string) => {
-    if (isScanning) return;
+    showMessage(STATUS_MESSAGES.SCANNING);
 
-    setIsScanning(true);
-    let parsed: Record<string, any> | string = decodedText;
+    scanner.render(
+      (decodedText: string) => {
+        if (isScanning) return;
 
-    try {
-      parsed = JSON.parse(decodedText);
-    } catch (e) {
-      if (decodedText.includes("=") && decodedText.includes(",")) {
-        parsed = parseResult(decodedText);
-      }
-    }
+        setIsScanning(true);
+        let parsed: Record<string, any> | string = decodedText;
 
-    console.log("Parsed:", parsed);
-    // setScanResult(typeof parsed === "string" ? parsed : JSON.stringify(parsed, null, 2));
-    setError(null);
+        try {
+          parsed = JSON.parse(decodedText);
+        } catch {
+          if (decodedText.includes("=") && decodedText.includes(",")) {
+            parsed = parseResult(decodedText);
+          } else {
+            showMessage(STATUS_MESSAGES.INVALID_QR);
+            return;
+          }
+        }
 
-    if (typeof parsed === "object" && parsed?.vp?.verifiableCredential?.credentialSubject) {
-      handleScan(parsed);
-    } else {
-      console.warn("handleScan 조건 불충족. parsed:", parsed);
-      setIsScanning(false); 
-    }
-  },
-  (_: string) => {
-    // 스캔 실패 무시
-  }
-  );
+        setError(null);
+        if (typeof parsed === "object" && parsed?.vp?.verifiableCredential?.credentialSubject) {
+          handleScan(parsed);
+        } else {
+          showMessage(STATUS_MESSAGES.INVALID_QR);
+        }
+      },
+      () => {}
+    );
 
-scannerRef.current = scanner;
-  return () => {
-    scanner.clear().catch(console.error);
-    scannerRef.current = null;
-  };
-}, []);
+    scannerRef.current = scanner;
+
+    return () => {
+      scanner.clear().catch(console.error);
+      scannerRef.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     const resizeHandler = () => {
-    const qrReader = document.getElementById("qr-reader");
-    if (qrReader) {
-      qrReader.style.height = `${window.innerHeight}px`;
-      qrReader.style.width = `${window.innerWidth}px`;
-    }
-  };
+      const qrReader = document.getElementById("qr-reader");
+      if (qrReader) {
+        qrReader.style.height = `${window.innerHeight}px`;
+        qrReader.style.width = `${window.innerWidth}px`;
+      }
+    };
 
-  window.addEventListener("resize", resizeHandler);
-  resizeHandler(); // 초기 실행
+    window.addEventListener("resize", resizeHandler);
+    resizeHandler();
 
-  return () => {
-    window.removeEventListener("resize", resizeHandler);
-  };
-}, []);
+    return () => {
+      window.removeEventListener("resize", resizeHandler);
+    };
+  }, []);
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h2>QR 스캔 후 출입이 가능합니다!</h2>
+    <div className="qr-scanner-wrapper">
+      <div className="qr-header">
+        <img src={logo} alt="KEYWE Logo" className="qr-logo" />
+        <h2 className="qr-header-text">QR 스캔 후 출입이 가능합니다!</h2>
+      </div>
 
       {showPopup && (
-      <div style={{
-        position: "fixed", 
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        backgroundColor: "rgba(0,0,0,0.85)",
-        color: "#fff",
-        padding: "40px 60px", 
-        borderRadius: "16px",
-        zIndex: 9999, 
-        fontSize: "2rem", 
-        fontWeight: "bold",
-        textAlign: "center",
-        boxShadow: "0 8px 20px rgba(0,0,0,0.3)", 
-      }}>
+        <div className="qr-popup-message">
           {popupMessage}
         </div>
       )}
 
-      <div
-        id="qr-reader"
-        style={{
-            width: "100vw",
-            height: "100vh",
-            margin: "0 auto"
-        }}
-        ></div>
-      {/* {scanResult && (
-        <pre
-          style={{
-            textAlign: "left",
-            background: "#f4f4f4",
-            padding: "10px",
-            marginTop: "16px",
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-          }}
-        >
-          Scanned Result:
-          {"\n"}
-          {scanResult}
-        </pre>
-      )} */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <button onClick={() => navigate(-1)}>돌아가기</button>
+      <div id="qr-reader" className="qr-reader" />
+      <div className="qr-overlay" />
+
+      {error && <p className="qr-error-text">{error}</p>}
+
+      <button className="qr-back-button" onClick={() => navigate(-1)}>돌아가기</button>
     </div>
   );
 };
