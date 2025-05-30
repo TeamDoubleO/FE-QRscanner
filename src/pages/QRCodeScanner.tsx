@@ -17,7 +17,7 @@ const parseResult = (raw: string) => {
 const QRCodeScanner = () => {
   const navigate = useNavigate();
 
-  const [scanResult, setScanResult] = useState<string | null>(null);
+  // const [scanResult, setScanResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
@@ -85,7 +85,7 @@ const QRCodeScanner = () => {
     }
 
     console.log("Parsed:", parsed);
-    setScanResult(typeof parsed === "string" ? parsed : JSON.stringify(parsed, null, 2));
+    // setScanResult(typeof parsed === "string" ? parsed : JSON.stringify(parsed, null, 2));
     setError(null);
 
     if (typeof parsed === "object" && parsed?.vp?.verifiableCredential?.credentialSubject) {
