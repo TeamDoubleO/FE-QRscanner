@@ -1,3 +1,10 @@
+.building-select-main-card-header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 16px;
+}
+
 .zone-select-main-zone-card {
   margin-top: 6px;
   width: 700px;
@@ -14,4 +21,14 @@
   gap: 20px;
   transform: translateY(-40px);
   position: relative;
+}
+
+.zone-select-main-zone-card-bottom-buttons {
+  position: absolute;
+  bottom: 20px;
+  left: 32px;
+  right: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

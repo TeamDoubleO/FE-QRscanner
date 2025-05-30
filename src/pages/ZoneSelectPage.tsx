@@ -9,6 +9,7 @@ import ZoneSelectMainZoneCard from '../components/zone/ZoneSelectMainZoneCard';
 import zonewrapperBackground from '../assets/images/zone-background.png';
 
 const ZoneSelectPage: React.FC = () => {
+  const [buildingId, setBuildingId] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<'white' | 'building' | 'zone'>('white');
 
   useEffect(() => {
@@ -19,10 +20,9 @@ const ZoneSelectPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleNext = () => {
-    if (currentStep === 'building') {
-      setCurrentStep('zone');
-    }
+  const handleNext = (selectedBuildingId: string) => {
+    setBuildingId(selectedBuildingId); 
+    setCurrentStep('zone'); 
   };
 
   return (
@@ -34,7 +34,11 @@ const ZoneSelectPage: React.FC = () => {
         <ZoneSelectGreenCard />
         {currentStep === 'white' && <ZoneSelectWhiteCard />}
         {currentStep === 'building' && <ZoneSelectMainBuildingCard onNext={handleNext} />}
-        {currentStep === 'zone' && <ZoneSelectMainZoneCard />}
+        {currentStep === 'zone' && buildingId && 
+          <ZoneSelectMainZoneCard 
+            buildingId={buildingId} 
+            onBack={() => setCurrentStep('building')}
+          />}
       </div>
     </div>
   );
