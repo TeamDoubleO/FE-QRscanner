@@ -23,9 +23,6 @@ const BuildingSelectMainCard: React.FC = () => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const prevSearchKeywordRef = useRef('');
-
-  // const [isLoading, setIsLoading] = useState(true);
-
   const navigate = useNavigate();
 
   const loadPage = async (page: number, keyword: string) => {
@@ -55,33 +52,38 @@ const BuildingSelectMainCard: React.FC = () => {
 
   useEffect(() => {
     loadPage(currentPage, searchKeyword);
-  }, [currentPage, searchKeyword ?? '']);
+  }, [currentPage, searchKeyword]);
 
   const handleSelectBuilding = () => {
-    localStorage.setItem("deviceAreaCode", selectedBuilding?.buildingCode);
+    if (!selectedBuilding) return;
+
+    const { buildingCode, buildingName } = selectedBuilding;
+
+    localStorage.setItem("deviceAreaCode", buildingCode);
+    localStorage.setItem("buildingName", buildingName);
     navigate("/qr"); 
   };
 
   return (
     <div className="building-select-main-card">
       <div className="building-select-main-card-table-wrapper">
-      <h2>건물 출입구 선택</h2>
-      <br />
-      <SearchBar
-        placeholder="건물명을 입력하세요"
-        onSearch={handleSearch}
-      />
-      <br />
-      <CheckTable 
-        tableTitles={tableTitles} 
-        data={buildingList}
-        onRowSelect={(row) => setSelectedBuilding(row)} 
-      />
-      <Pagination 
-        currentPage={currentPage}
-        totalPages={totalPages} 
-        onPageChange={setCurrentPage}
-      />
+        <h2>건물 출입구 선택</h2>
+        <br />
+        <SearchBar
+          placeholder="건물명을 입력하세요"
+          onSearch={handleSearch}
+        />
+        <br />
+        <CheckTable 
+          tableTitles={tableTitles} 
+          data={buildingList}
+          onRowSelect={(row) => setSelectedBuilding(row)} 
+        />
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages} 
+          onPageChange={setCurrentPage}
+        />
       </div>
       <div className="building-select-main-card-bottom-buttons">
         <LogoutButton />

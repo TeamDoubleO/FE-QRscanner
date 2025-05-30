@@ -19,10 +19,11 @@ const tableTitles = [
 
 interface Props {
   buildingId: string;
+  buildingName: string;
   onBack: () => void;
 }
 
-const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, onBack }) => {
+const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onBack }) => {
   const [buildingList, setBuildingList] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,20 +31,16 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, onBack }) => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const prevSearchKeywordRef = useRef('');
-
-  // const [isLoading, setIsLoading] = useState(true);
-
   const navigate = useNavigate();
   
   const loadPage = async (buildingId: string, page: number, keyword: string) => {
     if (!buildingId) return;
-    console.log("요청에 사용된 buildingId:", buildingId);
     try {
       const data = await fetchZoneList(buildingId, page - 1, keyword);
       setBuildingList(data.content);
       setTotalPages(data.totalPages);
     } catch (err) {
-      console.error("건물 목록 불러오기 실패:", err);
+      console.error("구역 목록 불러오기 실패:", err);
     }
   };
 
@@ -67,7 +64,13 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, onBack }) => {
   }, [buildingId, currentPage, searchKeyword]);
   
   const handleSelectBuilding = () => {
-    localStorage.setItem("deviceAreaCode", selectedBuilding?.areaCode);
+    if (!selectedBuilding) return;
+
+    const { areaCode, areaName } = selectedBuilding;
+
+    localStorage.setItem("deviceAreaCode", areaCode);
+    localStorage.setItem("zoneName", areaName);
+    localStorage.setItem("buildingName", buildingName);
     navigate("/qr"); 
   };
 
@@ -75,23 +78,23 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, onBack }) => {
     <div className="building-select-main-card">
       <BackButton onClick={onBack} />
       <div className="building-select-main-card-table-wrapper">
-      <h2>구역 출입구 선택</h2>
-      <br />
-      <SearchBar
-        placeholder="구역명을 입력하세요"
-        onSearch={handleSearch}
-      />
-      <br />
-      <CheckTable 
-        tableTitles={tableTitles} 
-        data={buildingList}
-        onRowSelect={(row) => setSelectedBuilding(row)} 
-      />
-      <Pagination 
-        currentPage={currentPage}
-        totalPages={totalPages} 
-        onPageChange={setCurrentPage}
-      />
+        <h2>구역 출입구 선택</h2>
+        <br />
+        <SearchBar
+          placeholder="구역명을 입력하세요"
+          onSearch={handleSearch}
+        />
+        <br />
+        <CheckTable 
+          tableTitles={tableTitles} 
+          data={buildingList}
+          onRowSelect={(row) => setSelectedBuilding(row)} 
+        />
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages} 
+          onPageChange={setCurrentPage}
+        />
       </div>
       <div className="building-select-main-card-bottom-buttons">
         <LogoutButton />
