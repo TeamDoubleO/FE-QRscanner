@@ -1,42 +1,90 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from "react";
 
 import './css/ZoneSelectMainBuildingCard.css';
-
+import SearchBar from '../searchbar/SearchBar';
+import CheckTable from '../table/CheckTable';
+import Pagination from '../table/Pagination';
 import LogoutButton from '../buttons/LogoutButton';
-import { adminLogout } from '../../apis/loginApi';
+import NextButton from "../buttons/NextButton";
+
+import { fetchBuildingList } from '../../apis/areaApi';
+
+const tableTitles = [
+  { key: "buildingCode", label: "건물코드" },
+  { key: "buildingName", label: "건물명" },
+];
 
 interface Props {
-  onNext: () => void;
+  onNext: (buildingId: string) => void;
 }
 
 const ZoneSelectMainBuildingCard: React.FC<Props> = ({ onNext }) => {
-  const navigate = useNavigate();
+  const [buildingList, setBuildingList] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedBuilding, setSelectedBuilding] = useState<Record<string, any> | null>(null);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
-  const handleLogout = async () => {
-    const confirmed = window.confirm("로그아웃 하시겠습니까?");
-    if (!confirmed) return;
+  const prevSearchKeywordRef = useRef('');
 
+  const loadPage = async (page: number, keyword: string) => {
     try {
-      await adminLogout();
-      localStorage.clear();
-      navigate("/login");
-    } catch (err: any) {
-      localStorage.clear();
-      const message = err?.message ?? "로그아웃 실패";
-      alert(message);
-      console.warn("관리자 로그아웃 실패:", err);
-      navigate("/login");
+      const data = await fetchBuildingList(page - 1, keyword);
+      setBuildingList(data.content);
+      setTotalPages(data.totalPages);
+    } catch (err) {
+      console.error("건물 목록 불러오기 실패:", err);
     }
+  };
+
+  const handleSearch = async (input: string) => {
+    const trimmed = input.trim();
+
+    if (trimmed !== prevSearchKeywordRef.current || currentPage !== 1) {
+      prevSearchKeywordRef.current = trimmed;
+      setSearchKeyword(trimmed);
+
+      if (currentPage === 1) {
+        await loadPage(1, trimmed); 
+      } else {
+        setCurrentPage(1);
+      }
+    }
+  };
+
+  useEffect(() => {
+    loadPage(currentPage, searchKeyword);
+  }, [currentPage, searchKeyword ?? '']);
+
+  const handleSelectBuilding = () => {
+    console.log("선택된 buildingId:", selectedBuilding?.buildingId);
+    onNext(selectedBuilding?.buildingId);
   };
 
   return (
     <div className="zone-select-main-building-card">
+      <div className="zone-select-main-building-card-table-wrapper">
       <h2>건물 선택</h2>
-      <div className="zone-select-main-building-card-logout-button-wrapper">
-        <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
+      <br />
+      <SearchBar
+        placeholder="건물명을 입력하세요"
+        onSearch={handleSearch}
+      />
+      <br />
+      <CheckTable 
+        tableTitles={tableTitles} 
+        data={buildingList}
+        onRowSelect={(row) => setSelectedBuilding(row)} 
+      />
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages} 
+        onPageChange={setCurrentPage}
+      />
       </div>
-      <div className="zone-select-main-building-card-next-button-wrapper">
-        <button onClick={onNext}>다음</button>
+      <div className="zone-select-main-zone-card-bottom-buttons">
+        <LogoutButton />
+        <NextButton onClick={handleSelectBuilding} />
       </div>
     </div>
   );

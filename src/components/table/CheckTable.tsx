@@ -44,7 +44,7 @@ const CheckTable: React.FC<CheckEditTableProps> = ({ tableTitles, data, onRowSel
           {data.length === 0 ? (
             <tr>
               <td colSpan={tableTitles.length + 2} style={{ textAlign: 'center', padding: '12px', color: '#888' }}>
-                검색하신 건물이 존재하지 않습니다
+                조회된 결과가 존재하지 않습니다.
               </td>
             </tr>
           ) : (

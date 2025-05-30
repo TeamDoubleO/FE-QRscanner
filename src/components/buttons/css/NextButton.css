@@ -1,7 +1,7 @@
-  .select-button {
-    width: 180px;
+  .next-button {
+    width: 60px;
     height: 40px;
-    background-color: #f44336;
+    background-color: #666666;
     color: white;
     font-size: 15px;
     border: none;
@@ -12,14 +12,9 @@
     cursor: pointer;
     transition: background-color 0.2s ease;
     padding: 0;
+    left: 32px;
   }
   
-  .select-button:hover {
-    background-color: #d71111;
+  .next-button:hover {
+    background-color: #999999;
   }
-  
-  .select-button:active {
-    background-color: #b80606;
-  }
-  
-  
