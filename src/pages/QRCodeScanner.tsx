@@ -5,7 +5,7 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import { verifyQR } from '../apis/qrApi';
 
 import './css/QRCodeScanner.css';
-import logo from '../assets/images/KEYWE_logo.png';
+import logo from '../assets/images/KEYWE_logo_w.png';
 
 const STATUS_MESSAGES: Record<string, string> = {
   NO_CAMERA: "📵 카메라 장치를 찾을 수 없습니다",
