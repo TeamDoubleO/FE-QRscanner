@@ -33,10 +33,10 @@
 
 .qr-popup-message {
   position: fixed;
-  top: 15%;
+  top: 90PX;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: rgba(137, 137, 137, 0.85);
+  background-color: rgba(137, 137, 137, 0.8);
   color: #fff;
   padding: 10px 10px;
   border-radius: 16px;
@@ -56,6 +56,26 @@
   margin: 0;
   z-index: 1;
   background: black;
+}
+
+.qr-overlay {
+  position: absolute;
+  top: 30PX;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 5;
+  pointer-events: none;
+  clip-path: polygon(
+    0% 0%, 100% 0%, 100% 100%, 0% 100%,
+    0% 0%,
+    calc(50% - 275px) calc(50% - 275px),
+    calc(50% - 275px) calc(50% + 275px),
+    calc(50% + 275px) calc(50% + 275px),
+    calc(50% + 275px) calc(50% - 275px),
+    calc(50% - 275px) calc(50% - 275px)
+  );
 }
 
 .qr-error-text {
