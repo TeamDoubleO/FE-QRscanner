@@ -1,5 +1,5 @@
 import React from 'react';
-import KEYWEloading from '../../assets/images/KEYWE-loading.png';
+import KEYWEloading from '../../assets/images/KEYWE_loading.png';
 import './css/Loading.css';
 
 const Loading: React.FC = () => {

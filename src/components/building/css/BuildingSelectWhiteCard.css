@@ -13,6 +13,7 @@
   text-align: center;
   gap: 20px;
   transform: translateY(-40px);
+  position: relative;
 
   animation: building-select-white-card-expand-right 0.8s ease-out forwards;
 }

@@ -2,11 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
 
 import './css/BuildingSelectMainCard.css';
+import '../loading/css/Loading.css';
 import SearchBar from '../searchbar/SearchBar';
 import CheckTable from '../table/CheckTable';
 import Pagination from '../table/Pagination';
 import LogoutButton from '../buttons/LogoutButton';
 import SelectButton from '../buttons/SelectButton';
+import Loading from '../loading/Loading';
 
 import { fetchBuildingList } from '../../apis/areaApi';
 
@@ -21,17 +23,21 @@ const BuildingSelectMainCard: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBuilding, setSelectedBuilding] = useState<Record<string, any> | null>(null);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const prevSearchKeywordRef = useRef('');
   const navigate = useNavigate();
 
   const loadPage = async (page: number, keyword: string) => {
+    setIsLoading(true)
     try {
       const data = await fetchBuildingList(page - 1, keyword);
       setBuildingList(data.content);
       setTotalPages(data.totalPages);
     } catch (err) {
       console.error("건물 목록 불러오기 실패:", err);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -66,6 +72,12 @@ const BuildingSelectMainCard: React.FC = () => {
 
   return (
     <div className="building-select-main-card">
+      {isLoading ? (
+          <div className="loading-overlay">
+            <Loading />
+            <div className="loading-text">건물 정보를 불러오는 중입니다...</div>
+          </div>
+        ) : (
       <div className="building-select-main-card-table-wrapper">
         <h2>건물 출입구 선택</h2>
         <br />
@@ -85,6 +97,7 @@ const BuildingSelectMainCard: React.FC = () => {
           onPageChange={setCurrentPage}
         />
       </div>
+      )}
       <div className="building-select-main-card-bottom-buttons">
         <LogoutButton />
         <SelectButton onClick={handleSelectBuilding}>해당 건물 QR스캔 시작</SelectButton>
