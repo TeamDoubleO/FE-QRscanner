@@ -12,7 +12,7 @@ const STATUS_MESSAGES: Record<string, string> = {
   SCANNING: "📷 인식 중... QR 코드를 화면에 맞춰주세요",
   ACCESS_GRANTED: "✅ 출입 인증 성공",
   ACCESS_DENIED: "❌ 출입 권한 없음",
-  VERIFY_FAILED: "🛠️ 출입 인증 실패",
+  VERIFY_FAILED: "🛠️ 출입 인증 실패 관리자에게 문의해주세요",
   INVALID_QR: "⚠️ 올바르지 않은 QR 코드입니다",
 };
 
