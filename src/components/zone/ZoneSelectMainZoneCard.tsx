@@ -2,13 +2,14 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from "react";
 
 import './css/ZoneSelectMainZoneCard.css';
-
+import '../loading/css/Loading.css';
 import SearchBar from '../searchbar/SearchBar';
 import CheckTable from '../table/CheckTable';
 import Pagination from '../table/Pagination';
 import LogoutButton from '../buttons/LogoutButton';
 import BackButton from '../buttons/BackButton';
 import SelectButton from '../buttons/SelectButton';
+import Loading from '../loading/Loading';
 
 import { fetchZoneList } from '../../apis/areaApi';
 
@@ -29,11 +30,13 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBuilding, setSelectedBuilding] = useState<Record<string, any> | null>(null);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const prevSearchKeywordRef = useRef('');
   const navigate = useNavigate();
   
   const loadPage = async (buildingId: string, page: number, keyword: string) => {
+    setIsLoading(true)
     if (!buildingId) return;
     try {
       const data = await fetchZoneList(buildingId, page - 1, keyword);
@@ -41,6 +44,8 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
       setTotalPages(data.totalPages);
     } catch (err) {
       console.error("구역 목록 불러오기 실패:", err);
+    } finally {
+      setIsLoading(false)
     }
   };
 
@@ -76,6 +81,13 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
 
   return (
     <div className="building-select-main-card">
+      {isLoading ? (
+          <div className="loading-overlay">
+            <Loading />
+            <div className="loading-text">구역 정보를 불러오는 중입니다...</div>
+          </div>
+        ) : (
+      <>
       <BackButton onClick={onBack} />
       <div className="building-select-main-card-table-wrapper">
         <h2>구역 출입구 선택</h2>
@@ -96,6 +108,8 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
           onPageChange={setCurrentPage}
         />
       </div>
+      </>
+      )}
       <div className="building-select-main-card-bottom-buttons">
         <LogoutButton />
         <SelectButton onClick={handleSelectBuilding}>해당 구역 QR스캔 시작</SelectButton>
