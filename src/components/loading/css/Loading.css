@@ -10,6 +10,7 @@
   z-index: 1000;
   background-color: #ffffff;
   background: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
 }
 
 .loading-image {
@@ -30,4 +31,24 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.loading-text {
+  margin-top: 150px;
+  font-size: 1.2rem;
+  color: #333;
 }
