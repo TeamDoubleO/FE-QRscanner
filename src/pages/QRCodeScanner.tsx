@@ -41,6 +41,7 @@ const QRCodeScanner = () => {
   const buildingName = localStorage.getItem("buildingName") || "";
   const zoneName = localStorage.getItem("zoneName") || "";
   const isZoneMode = !!zoneName;
+  const isScanningRef = useRef(false);
 
   const showMessage = (message: string) => {
     setPopupMessage(message);
@@ -52,68 +53,86 @@ const QRCodeScanner = () => {
   };
 
   useEffect(() => {
-    if (scannerRef.current) return;
+  if (scannerRef.current) return;
 
-    const scanner = new (Html5QrcodeScanner as any)(
-      "qr-reader",
-      {
-        fps: 10
-      },
-      false
-    );
+  const scanner = new (Html5QrcodeScanner as any)(
+    "qr-reader",
+    {
+      fps: 10
+    },
+    false
+  );
 
-    const handleScan = async (parsed: any) => {
-      const allowedAreas = parsed?.vp?.verifiableCredential?.credentialSubject?.allowedAreas;
-      const deviceAreaCode = localStorage.getItem("deviceAreaCode") || "";
+  const handleScan = async (parsed: any) => {
+    const allowedAreas = parsed?.vp?.verifiableCredential?.credentialSubject?.allowedAreas;
+    const deviceAreaCode = localStorage.getItem("deviceAreaCode") || "";
 
-      if (Array.isArray(allowedAreas) && deviceAreaCode) {
-        try {
-          const result = await verifyQR(allowedAreas, deviceAreaCode);
-          showMessage(result ? STATUS_MESSAGES.ACCESS_GRANTED : STATUS_MESSAGES.ACCESS_DENIED);
-        } catch (err: unknown) {
-          console.error("출입 데이터 전송 실패", err);
-          showMessage(STATUS_MESSAGES.VERIFY_FAILED);
+    if (Array.isArray(allowedAreas) && deviceAreaCode) {
+      try {
+        const result = await verifyQR(allowedAreas, deviceAreaCode);
+        showMessage(result ? STATUS_MESSAGES.ACCESS_GRANTED : STATUS_MESSAGES.ACCESS_DENIED);
+      } catch (err: unknown) {
+        console.error("출입 데이터 전송 실패", err);
+        showMessage(STATUS_MESSAGES.VERIFY_FAILED);
+      }
+    } else {
+      showMessage(STATUS_MESSAGES.INVALID_QR);
+    }
+  };
+
+  showMessage(STATUS_MESSAGES.SCANNING);
+
+  scanner.render(
+    (decodedText: string) => {
+      if (isScanningRef.current) return;
+
+      isScanningRef.current = true; // 10초간 QR 인식 일시차단
+      console.log("QR 인식됨:", decodedText);
+
+      setIsScanning(true); 
+      setTimeout(() => {
+        isScanningRef.current = false; // 10초 후 해제
+        setIsScanning(false);
+      }, 10000);
+
+      let parsed: Record<string, any> | string = decodedText;
+
+      try {
+        parsed = JSON.parse(decodedText);
+      } catch {
+        if (decodedText.includes("=") && decodedText.includes(",")) {
+          parsed = parseResult(decodedText);
+        } else {
+          showMessage(STATUS_MESSAGES.INVALID_QR);
+          return;
         }
+      }
+
+      setError(null);
+      if (typeof parsed === "object" && parsed?.vp?.verifiableCredential?.credentialSubject) {
+        handleScan(parsed);
       } else {
         showMessage(STATUS_MESSAGES.INVALID_QR);
       }
-    };
+    },
+    () => {}
+  );
 
-    showMessage(STATUS_MESSAGES.SCANNING);
+  scannerRef.current = scanner;
 
-    scanner.render(
-      (decodedText: string) => {
-        if (isScanning) return;
+  return () => {
+    const instance = scannerRef.current;
+    if (instance && instance.qrCodeScanner) {
+      const html5QrInstance = instance.qrCodeScanner;
 
-        setIsScanning(true);
-        let parsed: Record<string, any> | string = decodedText;
-
-        try {
-          parsed = JSON.parse(decodedText);
-        } catch {
-          if (decodedText.includes("=") && decodedText.includes(",")) {
-            parsed = parseResult(decodedText);
-          } else {
-            showMessage(STATUS_MESSAGES.INVALID_QR);
-            return;
-          }
-        }
-
-        setError(null);
-        if (typeof parsed === "object" && parsed?.vp?.verifiableCredential?.credentialSubject) {
-          handleScan(parsed);
-        } else {
-          showMessage(STATUS_MESSAGES.INVALID_QR);
-        }
-      },
-      () => {}
-    );
-
-    scannerRef.current = scanner;
-
-    return () => {
-      scanner.clear().catch(console.error);
-      scannerRef.current = null;
+      html5QrInstance
+        .stop()
+        .then(() => html5QrInstance.clear())
+        .catch(console.error)
+        .finally(() => {
+          scannerRef.current = null;
+        });
+      }
     };
   }, []);
 
@@ -133,6 +152,28 @@ const QRCodeScanner = () => {
       window.removeEventListener("resize", resizeHandler);
     };
   }, []);
+
+  const handleBackClick = async () => {
+    const instance = scannerRef.current;
+    if (instance) {
+      try {
+        await instance.clear(); // 카메라 종료
+      } catch (err) {
+        console.error("카메라 정리 중 오류", err);
+      } finally {
+        scannerRef.current = null;
+        navigate(-1); 
+      }
+    } else {
+      navigate(-1); 
+    }
+  };
+
+  useEffect(() => {
+  if (isScanning) {
+    console.log("QR 코드 쿨타임 중(QR 인식 일시 차단)");
+  }
+}, [isScanning]);
 
   return (
     <div className="qr-scanner-wrapper">
@@ -159,7 +200,7 @@ const QRCodeScanner = () => {
 
       {error && <p className="qr-error-text">{error}</p>}
 
-      <button className="qr-back-button" onClick={() => navigate(-1)}>돌아가기</button>
+      <button className="qr-back-button" onClick={handleBackClick}>돌아가기</button>
     </div>
   );
 };
