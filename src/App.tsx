@@ -23,7 +23,7 @@ function GlobalPopStateHandler() {
             (window as any).scannerRef = null;
           });
       } else {
-        console.log("[Global] scannerRef가 없음 (이미 null?)");
+        console.log("[Global] scannerRef가 없음");
       }
     };
 
