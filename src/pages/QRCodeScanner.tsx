@@ -80,6 +80,9 @@ const QRCodeScanner = () => {
     }
   };
 
+  scannerRef.current = scanner;
+  (window as any).scannerRef = scannerRef;
+
   showMessage(STATUS_MESSAGES.SCANNING);
 
   scanner.render(
@@ -118,22 +121,6 @@ const QRCodeScanner = () => {
     () => {}
   );
 
-  scannerRef.current = scanner;
-
-  return () => {
-    const instance = scannerRef.current;
-    if (instance && instance.qrCodeScanner) {
-      const html5QrInstance = instance.qrCodeScanner;
-
-      html5QrInstance
-        .stop()
-        .then(() => html5QrInstance.clear())
-        .catch(console.error)
-        .finally(() => {
-          scannerRef.current = null;
-        });
-      }
-    };
   }, []);
 
   useEffect(() => {
