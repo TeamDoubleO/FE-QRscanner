@@ -52,6 +52,8 @@ const CheckTable: React.FC<CheckEditTableProps> = ({ tableTitles, data, onRowSel
               <tr
                 key={idx}
                 className={selectedRow === idx ? "check-table-selected-row" : ""}
+                onClick={() => handleRowSelect(idx)}
+                style={{ cursor: 'pointer' }}
               >
                 <td>
                   <input
