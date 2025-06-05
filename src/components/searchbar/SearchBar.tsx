@@ -14,6 +14,12 @@ const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
     if (onSearch) onSearch(inputValue);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div className="search-bar">
       <input
@@ -22,6 +28,7 @@ const SearchBar = ({ placeholder, onSearch }: SearchBarProps) => {
         placeholder={placeholder}
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
       />
       <button className="search-bar-button" onClick={handleSearch}>
         검색
