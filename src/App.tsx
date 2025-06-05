@@ -1,10 +1,12 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import LoginSwitcher from './components/switcher/LoginSwitcher';
 import BuildingSelectPage from './pages/BuildingSelectPage';
 import ZoneSelectPage from './pages/ZoneSelectPage';
 import QRCodeScanner from './pages/QRCodeScanner';
+
+import PrivateRoute from './contexts/PrivateRoute';
 
 function GlobalPopStateHandler() {
   useEffect(() => {
@@ -63,11 +65,16 @@ function App() {
       <GlobalPopStateHandler />
       <LocationWatcher />
       <Routes>
-        <Route path="/" element={<LoginSwitcher />} /> 
+        {/* 로그인 안한 상태에서 접근 시 로그인 페이지로 이동 */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
         <Route path="/login" element={<LoginSwitcher />} />
-        <Route path="/building/select" element={<BuildingSelectPage />} />
-        <Route path="/zone/select" element={<ZoneSelectPage />} />
-        <Route path="/qr" element={<QRCodeScanner />} />
+
+        <Route element={<PrivateRoute />}>
+          <Route path="/building/select" element={<BuildingSelectPage />} />
+          <Route path="/zone/select" element={<ZoneSelectPage />} />
+          <Route path="/qr" element={<QRCodeScanner />} />
+        </Route>
       </Routes>
     </Router>
   );
