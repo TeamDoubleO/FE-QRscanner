@@ -72,7 +72,8 @@ axiosWithAuthorization.interceptors.response.use(
       } catch (refreshError) {
         console.error("엑세스 토큰 재발급 실패:", refreshError);
         localStorage.clear(); 
-        window.location.href = "/admin/login";
+        sessionStorage.clear();
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }

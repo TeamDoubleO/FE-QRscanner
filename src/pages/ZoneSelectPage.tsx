@@ -9,23 +9,32 @@ import ZoneSelectMainZoneCard from '../components/zone/ZoneSelectMainZoneCard';
 import zonewrapperBackground from '../assets/images/zone-background.png';
 
 const ZoneSelectPage: React.FC = () => {
-  const [buildingId, setBuildingId] = useState<string | null>(null);
-  const [buildingName, setBuildingName] = useState<string | null>(null);
+  const [buildingId, setBuildingId] = useState<string | null>(sessionStorage.getItem("buildingId"));
+  const [buildingName, setBuildingName] = useState<string | null>(sessionStorage.getItem("buildingName"));
   const [currentStep, setCurrentStep] = useState<'white' | 'building' | 'zone'>('white');
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setCurrentStep('building');
-    }, 800);
-
-    return () => clearTimeout(timer);
+    const savedStep = sessionStorage.getItem("zoneSelectStep") as 'white' | 'building' | 'zone' | null;
+    if (savedStep) {
+      setCurrentStep(savedStep);
+    } else {
+      const timer = setTimeout(() => {
+        setCurrentStep('building');
+        sessionStorage.setItem("zoneSelectStep", 'building');
+      }, 800);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const handleNext = (selectedBuildingId: string, selectedBuildingName: string) => {
     setBuildingId(selectedBuildingId);
     setBuildingName(selectedBuildingName);
     localStorage.setItem("buildingName", selectedBuildingName);
-    setCurrentStep('zone'); 
+
+    sessionStorage.setItem("buildingId", selectedBuildingId); 
+    sessionStorage.setItem("buildingName", selectedBuildingName);
+    sessionStorage.setItem("zoneSelectStep", 'zone');
+    setCurrentStep('zone');
   };
 
   return (
@@ -43,7 +52,10 @@ const ZoneSelectPage: React.FC = () => {
           <ZoneSelectMainZoneCard 
             buildingId={buildingId} 
             buildingName={buildingName} 
-            onBack={() => setCurrentStep('building')}
+            onBack={() => {
+              sessionStorage.setItem("zoneSelectStep", 'building');
+              setCurrentStep('building');
+            }}
           />
         )}
       </div>
