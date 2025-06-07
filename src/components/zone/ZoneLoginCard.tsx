@@ -28,6 +28,7 @@ const ZoneLoginCard: React.FC<Props> = ({ onSwitch: _, isExiting, direction, onL
       if (token) {
         localStorage.setItem("accessToken", token);
         onLogin();
+        sessionStorage.clear();
         navigate("/zone/select");
       } else {
         setError("로그인 실패: 엑세스 토큰이 없음");

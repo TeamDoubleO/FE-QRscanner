@@ -72,7 +72,7 @@ function App() {
 
         <Route element={<PrivateRoute />}>
           <Route path="/building/select" element={<BuildingSelectPage />} />
-          <Route path="/zone/select" element={<ZoneSelectPage />} />
+          <Route path="/zone/select/*" element={<ZoneSelectPage />} />
           <Route path="/qr" element={<QRCodeScanner />} />
         </Route>
       </Routes>

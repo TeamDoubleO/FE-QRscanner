@@ -14,9 +14,11 @@ const LogoutButton: React.FC = () => {
     try {
       await adminLogout();
       localStorage.clear();
+      sessionStorage.clear();
       navigate("/login");
     } catch (err: any) {
       localStorage.clear();
+      sessionStorage.clear();
       const message = err?.message ?? "로그아웃 실패";
       alert(message);
       console.warn("관리자 로그아웃 실패:", err);

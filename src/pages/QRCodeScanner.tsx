@@ -149,7 +149,8 @@ const QRCodeScanner = () => {
         console.error("카메라 정리 중 오류", err);
       } finally {
         scannerRef.current = null;
-        navigate(-1); 
+        sessionStorage.setItem("zoneSelectStep", 'zone');
+        navigate(-1);
       }
     } else {
       navigate(-1); 
