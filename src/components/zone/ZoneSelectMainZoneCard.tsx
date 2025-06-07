@@ -76,7 +76,7 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
     localStorage.setItem("deviceAreaCode", areaCode);
     localStorage.setItem("zoneName", areaName);
     localStorage.setItem("buildingName", buildingName);
-    navigate("/qr"); 
+    navigate("/qr", { replace: false }); 
   };
 
   return (
