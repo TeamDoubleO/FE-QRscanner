@@ -36,7 +36,7 @@ axiosWithAuthorization.interceptors.response.use(
   async (error: AxiosError) => {
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
-    console.log("401 발생한 요청 경로:", originalRequest.url);
+    console.log(`응답 에러 발생 [${error.response?.status}] 요청 경로: ${originalRequest.url}`);
 
     if (error.response?.status === 401 && !originalRequest._retry && originalRequest.url !== "/auth/reissue") {
       originalRequest._retry = true;
