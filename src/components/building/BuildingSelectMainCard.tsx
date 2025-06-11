@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import './css/BuildingSelectMainCard.css';
 import '../loading/css/Loading.css';
 import SearchBar from '../searchbar/SearchBar';
-import CheckTable from '../table/CheckTable';
+import CheckIOTable from '../table/CheckIOTable';
 import Pagination from '../table/Pagination';
 import LogoutButton from '../buttons/LogoutButton';
 import SelectButton from '../buttons/SelectButton';
@@ -22,6 +22,7 @@ const BuildingSelectMainCard: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedBuilding, setSelectedBuilding] = useState<Record<string, any> | null>(null);
+  const [selectedDirection, setSelectedDirection] = useState<string>('입장');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -65,8 +66,13 @@ const BuildingSelectMainCard: React.FC = () => {
 
     const { buildingCode, buildingName } = selectedBuilding;
 
+    localStorage.setItem("deviceLocationType", "BUILDING");
     localStorage.setItem("deviceAreaCode", buildingCode);
     localStorage.setItem("buildingName", buildingName);
+
+    const directionValue = selectedDirection === '입장' ? 'IN' : 'OUT';
+    localStorage.setItem("direction", directionValue);
+
     navigate("/qr"); 
   };
 
@@ -86,10 +92,15 @@ const BuildingSelectMainCard: React.FC = () => {
           onSearch={handleSearch}
         />
         <br />
-        <CheckTable 
+        <CheckIOTable 
           tableTitles={tableTitles} 
           data={buildingList}
           onRowSelect={(row) => setSelectedBuilding(row)} 
+          onDirectionChange={(idx, direction) => {
+            if (buildingList[idx] === selectedBuilding) {
+              setSelectedDirection(direction);
+            }
+          }}
         />
         <Pagination 
           currentPage={currentPage}
