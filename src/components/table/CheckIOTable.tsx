@@ -10,9 +10,10 @@ interface CheckEditIOTableProps {
   tableTitles: Column[];
   data: Record<string, any>[];
   onRowSelect?: (row: Record<string, any>) => void;
+  onDirectionChange?: (idx: number, direction: string) => void;
 }
 
-const CheckIOTable: React.FC<CheckEditIOTableProps> = ({ tableTitles, data, onRowSelect }) => {
+const CheckIOTable: React.FC<CheckEditIOTableProps> = ({ tableTitles, data, onRowSelect, onDirectionChange }) => {
     const [selectedRow, setSelectedRow] = useState<number>(0);
     const [rowDirections, setRowDirections] = useState<string[]>([]);
 
@@ -34,6 +35,10 @@ const CheckIOTable: React.FC<CheckEditIOTableProps> = ({ tableTitles, data, onRo
     const newDirections = [...rowDirections];
     newDirections[idx] = direction;
     setRowDirections(newDirections);
+
+    if (onDirectionChange) {
+        onDirectionChange(idx, direction); 
+    }
   };
 
   return (
