@@ -185,7 +185,9 @@ const QRCodeScanner = () => {
         <img src={logo} alt="KEYWE Logo" className="qr-logo" />
         <h2 className="qr-header-text">QR 스캔 후 출입이 가능합니다!</h2>
         <div className="qr-header-location">
-          {isZoneMode ? `${buildingName} / ${zoneName}` : buildingName}
+          {isZoneMode 
+            ? `${buildingName} / ${zoneName}` 
+            : `${buildingName} / ${direction}`}
         </div>
       </div>
 
