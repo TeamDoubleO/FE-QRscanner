@@ -86,7 +86,13 @@ const QRCodeScanner = () => {
       console.log("출입 verify 요청 payload:", payload);
 
       const result = await verifyQR(payload);
-      showMessage(result ? STATUS_MESSAGES.ACCESS_GRANTED : STATUS_MESSAGES.ACCESS_DENIED);
+      console.log("출입 검증 result:", result?.success);
+
+      if (result?.success) {
+        showMessage(STATUS_MESSAGES.ACCESS_GRANTED);
+      } else {
+        showMessage(STATUS_MESSAGES.ACCESS_DENIED);
+      }
     } catch (err: unknown) {
       console.error("출입 데이터 전송 실패", err);
       showMessage(STATUS_MESSAGES.VERIFY_FAILED);
