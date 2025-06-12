@@ -180,10 +180,28 @@ const QRCodeScanner = () => {
   };
 
   useEffect(() => {
-  if (isScanning) {
-    console.log("QR 코드 쿨타임 중(QR 인식 일시 차단)");
-  }
-}, [isScanning]);
+    if (isScanning) {
+      console.log("QR 코드 쿨타임 중(QR 인식 일시 차단)");
+    }
+  }, [isScanning]);
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const video = document.querySelector("#qr-reader video") as HTMLVideoElement;
+      if (video) {
+        video.style.transform = "scaleX(-1)";
+      }
+    });
+
+    const qrReader = document.getElementById("qr-reader");
+    if (qrReader) {
+      observer.observe(qrReader, { childList: true, subtree: true });
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   return (
     <div className="qr-scanner-wrapper">
