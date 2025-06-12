@@ -40,6 +40,7 @@ const QRCodeScanner = () => {
 
   const buildingName = localStorage.getItem("buildingName") || "";
   const zoneName = localStorage.getItem("zoneName") || "";
+  const direction = localStorage.getItem("direction") || "";
   const isZoneMode = !!zoneName;
   const isScanningRef = useRef(false);
 
@@ -64,21 +65,36 @@ const QRCodeScanner = () => {
   );
 
   const handleScan = async (parsed: any) => {
-    const allowedAreas = parsed?.vp?.verifiableCredential?.credentialSubject?.allowedAreas;
-    const deviceAreaCode = localStorage.getItem("deviceAreaCode") || "";
+  const deviceAreaCode = localStorage.getItem("deviceAreaCode") || "";
+  const deviceAreaId = localStorage.getItem("deviceAreaId");
+  const deviceLocationType = localStorage.getItem("deviceLocationType") || "";
 
-    if (Array.isArray(allowedAreas) && deviceAreaCode) {
-      try {
-        const result = await verifyQR(allowedAreas, deviceAreaCode);
-        showMessage(result ? STATUS_MESSAGES.ACCESS_GRANTED : STATUS_MESSAGES.ACCESS_DENIED);
-      } catch (err: unknown) {
-        console.error("출입 데이터 전송 실패", err);
-        showMessage(STATUS_MESSAGES.VERIFY_FAILED);
+  if (Array.isArray(parsed?.accessAreaCodes) && deviceAreaCode) {
+    try {
+      const payload: any = {
+        ...parsed,
+        deviceAreaCode,
+        deviceAreaId: deviceAreaId ? Number(deviceAreaId) : undefined,
+        deviceLocationType,
+      };
+
+      // BUILDING인 경우에만 direction 추가
+      if (direction) {
+        payload.direction = direction;
       }
-    } else {
-      showMessage(STATUS_MESSAGES.INVALID_QR);
+
+      console.log("출입 verify 요청 payload:", payload);
+
+      const result = await verifyQR(payload);
+      showMessage(result ? STATUS_MESSAGES.ACCESS_GRANTED : STATUS_MESSAGES.ACCESS_DENIED);
+    } catch (err: unknown) {
+      console.error("출입 데이터 전송 실패", err);
+      showMessage(STATUS_MESSAGES.VERIFY_FAILED);
     }
-  };
+  } else {
+    showMessage(STATUS_MESSAGES.INVALID_QR);
+  }
+};
 
   scannerRef.current = scanner;
   (window as any).scannerRef = scannerRef;
@@ -112,7 +128,7 @@ const QRCodeScanner = () => {
       }
 
       setError(null);
-      if (typeof parsed === "object" && parsed?.vp?.verifiableCredential?.credentialSubject) {
+      if (typeof parsed === "object" && parsed?.passId && parsed?.accessAreaCodes) {
         handleScan(parsed);
       } else {
         showMessage(STATUS_MESSAGES.INVALID_QR);
@@ -169,7 +185,9 @@ const QRCodeScanner = () => {
         <img src={logo} alt="KEYWE Logo" className="qr-logo" />
         <h2 className="qr-header-text">QR 스캔 후 출입이 가능합니다!</h2>
         <div className="qr-header-location">
-          {isZoneMode ? `${buildingName} / ${zoneName}` : buildingName}
+          {isZoneMode 
+            ? `${buildingName} / ${zoneName}` 
+            : `${buildingName} / ${direction}`}
         </div>
       </div>
 
