@@ -1,8 +1,6 @@
 import { useNavigate } from 'react-router-dom'; 
 import { useEffect, useRef, useState } from "react";
 
-import './css/ZoneSelectMainZoneCard.css';
-import '../loading/css/Loading.css';
 import SearchBar from '../searchbar/SearchBar';
 import CheckTable from '../table/CheckTable';
 import Pagination from '../table/Pagination';
@@ -10,6 +8,9 @@ import LogoutButton from '../buttons/LogoutButton';
 import BackButton from '../buttons/BackButton';
 import SelectButton from '../buttons/SelectButton';
 import Loading from '../loading/Loading';
+
+import './css/ZoneSelectMainZoneCard.css';
+import '../loading/css/Loading.css';
 
 import { fetchZoneList } from '../../apis/areaApi';
 
@@ -28,7 +29,7 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
   const [buildingList, setBuildingList] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedBuilding, setSelectedBuilding] = useState<Record<string, any> | null>(null);
+  const [selectedZone, setSelectedZone] = useState<Record<string, any> | null>(null);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -68,12 +69,13 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
     loadPage(buildingId, currentPage, searchKeyword);
   }, [buildingId, currentPage, searchKeyword]);
   
-  const handleSelectBuilding = () => {
-    if (!selectedBuilding) return;
+  const handleSelectZone = () => {
+    if (!selectedZone) return;
 
-    const { areaCode, areaName } = selectedBuilding;
+    const { areaCode, areaName, areaId } = selectedZone;
 
     localStorage.setItem("deviceLocationType", "AREA");
+    localStorage.setItem("deviceAreaId", areaId);
     localStorage.setItem("deviceAreaCode", areaCode);
     localStorage.setItem("zoneName", areaName);
     localStorage.setItem("buildingName", buildingName);
@@ -101,7 +103,7 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
         <CheckTable 
           tableTitles={tableTitles} 
           data={buildingList}
-          onRowSelect={(row) => setSelectedBuilding(row)} 
+          onRowSelect={(row) => setSelectedZone(row)} 
         />
         <Pagination 
           currentPage={currentPage}
@@ -113,7 +115,7 @@ const ZoneSelectMainZoneCard: React.FC<Props> = ({ buildingId, buildingName, onB
       )}
       <div className="building-select-main-card-bottom-buttons">
         <LogoutButton />
-        <SelectButton onClick={handleSelectBuilding}>해당 구역 QR스캔 시작</SelectButton>
+        <SelectButton onClick={handleSelectZone}>해당 구역 QR스캔 시작</SelectButton>
       </div>
     </div>
   );

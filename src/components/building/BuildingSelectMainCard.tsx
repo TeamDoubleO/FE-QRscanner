@@ -64,9 +64,10 @@ const BuildingSelectMainCard: React.FC = () => {
   const handleSelectBuilding = () => {
     if (!selectedBuilding) return;
 
-    const { buildingCode, buildingName } = selectedBuilding;
+    const { buildingId, buildingCode, buildingName } = selectedBuilding;
 
     localStorage.setItem("deviceLocationType", "BUILDING");
+    localStorage.setItem("deviceAreaId", buildingId);
     localStorage.setItem("deviceAreaCode", buildingCode);
     localStorage.setItem("buildingName", buildingName);
 
