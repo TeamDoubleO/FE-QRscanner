@@ -204,11 +204,11 @@ const QRCodeScanner = () => {
   }, []);
 
   return (
-    <div className="qr-scanner-wrapper">
-      <div className="qr-header">
-        <img src={logo} alt="KEYWE Logo" className="qr-logo" />
-        <h2 className="qr-header-text">QR 스캔 후 출입이 가능합니다!</h2>
-        <div className="qr-header-location">
+    <div className="qr-code-scanner-wrapper">
+      <div className="qr-code-scanner-header">
+        <img src={logo} alt="KEYWE Logo" className="qr-code-scanner-logo" />
+        <h2 className="qr-code-scanner-header-text">QR 스캔 후 출입이 가능합니다!</h2>
+        <div className="qr-code-scanner-header-location">
           {isZoneMode 
             ? `${buildingName} / ${zoneName}` 
             : `${buildingName} / ${direction}`}
@@ -217,20 +217,20 @@ const QRCodeScanner = () => {
 
       {showPopup && (
         <div
-          className={`qr-popup-message ${
-            CENTER_MESSAGES.includes(popupMessage) ? 'qr-popup-message-center' : ''
+          className={`qr-code-scanner-popup-message ${
+            CENTER_MESSAGES.includes(popupMessage) ? 'qr-code-scanner-popup-message-center' : ''
           }`}
         >
           {popupMessage}
         </div>
       )}
 
-      <div id="qr-reader" className="qr-reader" />
-      <div className="qr-overlay" />
+      <div id="qr-reader" className="qr-code-scanner-reader" />
+      <div className="qr-code-scanner-overlay" />
 
-      {error && <p className="qr-error-text">{error}</p>}
+      {error && <p className="qr-code-scanner-error-text">{error}</p>}
 
-      <button className="qr-back-button" onClick={handleBackClick}>돌아가기</button>
+      <button className="qr-code-scanner-back-button" onClick={handleBackClick}>돌아가기</button>
     </div>
   );
 };

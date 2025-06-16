@@ -1,4 +1,4 @@
-.qr-scanner-wrapper {
+.qr-code-scanner-wrapper {
   position: relative;
   width: 100vw;
   height: 100vh;
@@ -6,7 +6,7 @@
   background: black;
 }
 
-.qr-header {
+.qr-code-scanner-header {
   position: absolute;
   top: 0;
   left: 0;
@@ -19,20 +19,20 @@
   z-index: 9999;
 }
 
-.qr-logo {
+.qr-code-scanner-logo {
   top: 11px;
   position: absolute;
   left: 20px;
   height: 40px;
 }
 
-.qr-header-text {
+.qr-code-scanner-header-text {
   color: white;
   margin: 0;
   font-size: 20px;
 }
 
-.qr-popup-message {
+.qr-code-scanner-popup-message {
   position: fixed;
   top: 90PX;
   left: 50%;
@@ -48,13 +48,13 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.qr-popup-message-center {
+.qr-code-scanner-popup-message-center {
   font-size: 3rem;
   top: 50% !important;
   transform: translate(-50%, -50%) !important;
 }
 
-.qr-reader {
+.qr-code-scanner-reader {
   position: absolute;
   top: 0;
   left: 0;
@@ -65,7 +65,7 @@
   background: black;
 }
 
-.qr-overlay {
+.qr-code-scanner-overlay {
   position: absolute;
   top: 30PX;
   left: 0;
@@ -86,7 +86,7 @@
   );
 }
 
-.qr-error-text {
+.qr-code-scanner-error-text {
   color: red;
   position: absolute;
   bottom: 80px;
@@ -95,7 +95,7 @@
   font-weight: bold;
 }
 
-.qr-back-button {
+.qr-code-scanner-back-button {
   position: absolute;
   bottom: 20px;
   right: 20px;
@@ -110,7 +110,7 @@
 }
 
 
-.qr-header-location {
+.qr-code-scanner-header-location {
   position: absolute;
   right: 20px;
   top: 50%;
