@@ -64,6 +64,15 @@ const QRCodeScanner = () => {
     false
   );
 
+  const verifyWithTimeout = (payload: any, timeoutMs = 2000) => { // 타임아웃 2초
+    return Promise.race([
+      verifyQR(payload),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), timeoutMs)
+      )
+    ]);
+  };
+
   const handleScan = async (parsed: any) => {
   const deviceAreaCode = localStorage.getItem("deviceAreaCode") || "";
   const deviceAreaId = localStorage.getItem("deviceAreaId");
@@ -85,7 +94,7 @@ const QRCodeScanner = () => {
 
       console.log("출입 verify 요청 payload:", payload);
 
-      const result = await verifyQR(payload);
+      const result = await verifyWithTimeout(payload);
       console.log("출입 검증 result:", result?.success);
 
       if (result?.success) {
@@ -93,8 +102,12 @@ const QRCodeScanner = () => {
       } else {
         showMessage(STATUS_MESSAGES.ACCESS_DENIED);
       }
-    } catch (err: unknown) {
-      console.error("출입 데이터 전송 실패", err);
+    } catch (err: any) {
+      if (err.message === "timeout") {
+        console.error("출입 검증 응답 지연으로 타임아웃 발생");
+      } else {
+        console.error("출입 데이터 전송 실패", err);
+      }
       showMessage(STATUS_MESSAGES.VERIFY_FAILED);
     }
   } else {
