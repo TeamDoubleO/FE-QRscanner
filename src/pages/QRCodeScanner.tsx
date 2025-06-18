@@ -50,7 +50,7 @@ const QRCodeScanner = () => {
     setTimeout(() => {
       setShowPopup(false);
       setIsScanning(false);
-    }, 5000);
+    }, 1500);
   };
 
   useEffect(() => {
@@ -111,14 +111,14 @@ const QRCodeScanner = () => {
     (decodedText: string) => {
       if (isScanningRef.current) return;
 
-      isScanningRef.current = true; // 10초간 QR 인식 일시차단
+      isScanningRef.current = true; // 1.5초간 QR 인식 일시차단
       console.log("QR 인식됨:", decodedText);
 
       setIsScanning(true); 
       setTimeout(() => {
-        isScanningRef.current = false; // 10초 후 해제
+        isScanningRef.current = false; // 1.5초 후 해제
         setIsScanning(false);
-      }, 10000);
+      }, 1500);
 
       let parsed: Record<string, any> | string = decodedText;
 
